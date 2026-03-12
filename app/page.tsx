@@ -109,6 +109,12 @@ export default function Home() {
               How It Works
             </a>
             <a
+              href="#faq"
+              className="hidden md:block font-[family-name:var(--font-ibm-plex-mono)] text-xs uppercase tracking-widest text-ink hover:text-orange transition-colors"
+            >
+              FAQ
+            </a>
+            <a
               href="#get-report"
               className="border-2 border-ink bg-ink text-cream px-5 py-2.5 font-[family-name:var(--font-ibm-plex-mono)] text-xs uppercase tracking-widest hover:bg-orange hover:border-orange transition-colors duration-150"
             >
@@ -287,7 +293,7 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────── */}
-      <section className="border-b-2 border-ink" style={{ backgroundColor: "rgb(245, 242, 235)" }}>
+      <section id="faq" className="border-b-2 border-ink" style={{ backgroundColor: "rgb(245, 242, 235)" }}>
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr]">
           <div className="border-b-2 md:border-b-0 md:border-r-2 border-ink px-6 lg:px-10 py-16 bg-cream2 flex flex-col justify-between">
             <h2 className="text-4xl lg:text-5xl leading-[1.0]" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "rgb(26, 26, 22)" }}>
