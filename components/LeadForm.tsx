@@ -33,13 +33,21 @@ export default function LeadForm() {
       const submissionId = crypto.randomUUID();
       const businessName = (payload["businessName"] as string) || "";
 
-      // Fire webhook with session_id included — keepalive ensures it completes after navigation
-      fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, session_id: submissionId }),
-        keepalive: true,
-      });
+      // sendBeacon is the most reliable way to send data before page navigation
+      const blob = new Blob(
+        [JSON.stringify({ ...payload, session_id: submissionId })],
+        { type: "application/json" }
+      );
+      const sent = navigator.sendBeacon(WEBHOOK_URL, blob);
+      // Fall back to fetch+keepalive if sendBeacon fails
+      if (!sent) {
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, session_id: submissionId }),
+          keepalive: true,
+        });
+      }
 
       // Redirect immediately — polling handles the rest
       const params = new URLSearchParams({ business_name: businessName, submission_id: submissionId });
