@@ -1,9 +1,51 @@
 import LeadForm from "@/components/LeadForm";
 import { TopTicker, BusinessTicker } from "@/components/Ticker";
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "NextLocal AI",
+  "url": "https://nextlocal.ai",
+  "logo": "https://nextlocal.ai/favicon.ico",
+  "description": "NextLocal AI helps local businesses get recommended by AI assistants like ChatGPT, Gemini, and Perplexity through AI visibility optimization and free AI Visibility Reports.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Austin",
+    "addressRegion": "TX",
+    "addressCountry": "US"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "512-940-6498",
+    "email": "hello@nextlocal.ai",
+    "contactType": "customer service"
+  },
+  "sameAs": []
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI Visibility Report",
+  "description": "A free graded report showing how a local business ranks in AI-generated answers across ChatGPT, Gemini, and Perplexity. Grades cover Google Business Profile, reviews, citations, website quality, and AI presence.",
+  "provider": {
+    "@type": "Organization",
+    "name": "NextLocal AI"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "areaServed": "US",
+  "serviceType": "AI Visibility Optimization"
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-cream">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       {/* ── Top Ticker ──────────────────────────────────────── */}
       <div className="overflow-x-hidden"><TopTicker /></div>
 

@@ -1,23 +1,25 @@
 # NextLocal AI
-> AI optimization agency helping independent local businesses get found in AI search results from ChatGPT, Perplexity, and Google AI Overviews. Based in Austin, TX. Serving businesses nationwide.
+
+> NextLocal AI helps local businesses get recommended by AI assistants like ChatGPT, Gemini, and Perplexity. We provide free AI Visibility Reports and ongoing AI optimization services for contractors, home services, legal, medical, real estate, and other local businesses.
+
+## Key Pages
+
+- [Home](https://nextlocal.ai/): AI visibility reports and optimization for local businesses
+- [Get Free Report](https://nextlocal.ai/#get-report): Free AI Visibility Report — grades your business across Google Business Profile, reviews, citations, website, and AI presence
+
+## What We Do
+
+NextLocal AI is an AI visibility company based in Austin, TX. We help local businesses appear in AI-generated answers when potential customers ask ChatGPT, Gemini, or Perplexity for recommendations. Our free AI Visibility Report grades a business across five categories: Google Business Profile, reviews, citations, website quality, and AI presence.
 
 ## Services
-- [AI Visibility Report](https://nextlocal.ai/#get-report): Free report grading how a business currently appears across AI platforms, with competitor analysis and 3 recommended action steps.
-- [Done-for-You AI Optimization](https://nextlocal.ai/#how-it-works): Monthly retainer service ($997/month, 3-month minimum) including Google Business Profile optimization, 10–15 monthly citations, website content restructuring for AI readability, and monthly reporting calls.
 
-## How It Works
-- Step 1 — Audit: Grade current AI visibility across ChatGPT, Perplexity, Google AI Overviews, and Bing Copilot. Identify competitor citation gaps.
-- Step 2 — Optimize: Restructure website content for AI readability. Build authoritative citations. Optimize Google Business Profile.
-- Step 3 — Report: Monthly progress calls with clear data on AI citation performance and next steps.
+- Free AI Visibility Report: Instant graded report showing how a local business ranks in AI answers
+- AI Visibility Optimization: Ongoing service to build the authority signals that get businesses recommended by AI assistants
+- AI Visibility Audit: 200+ query simulation across ChatGPT, Gemini, and Perplexity
 
-## Target Clients
-- Independent dental practices
-- Local service businesses (HVAC, plumbing, landscaping, auto repair, legal, medical)
-- Any local business seeking to appear when potential customers query AI assistants
+## Contact
 
-## Key Facts
-- Service price: $997/month, all-inclusive, 3-month minimum commitment
-- Free AI Visibility Report available — no commitment required
-- Headquartered in Austin, TX
-- Contact: hello@nextlocal.ai
 - Website: https://nextlocal.ai
+- Email: hello@nextlocal.ai
+- Phone: 512-940-6498
+- Location: Austin, TX
