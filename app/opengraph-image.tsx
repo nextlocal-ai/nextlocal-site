@@ -5,7 +5,11 @@ export const alt = 'NextLocal AI — AI Visibility for Local Businesses';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-export default function OGImage() {
+export default async function OGImage() {
+  const playfairData = await fetch(
+    'https://fonts.gstatic.com/s/playfairdisplay/v37/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xRbPQ.woff2'
+  ).then((res) => res.arrayBuffer());
+
   return new ImageResponse(
     (
       <div
@@ -30,9 +34,9 @@ export default function OGImage() {
         >
           {/* Logo */}
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <span style={{ fontSize: '26px', fontWeight: 900, color: '#1a1a16' }}>Next</span>
-            <span style={{ fontSize: '26px', fontWeight: 900, color: '#c8460a' }}>Local</span>
-            <span style={{ fontSize: '26px', fontWeight: 900, color: '#1a1a16' }}> AI</span>
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#1a1a16', fontFamily: 'Playfair Display' }}>Next</span>
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#c8460a', fontFamily: 'Playfair Display' }}>Local</span>
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#1a1a16', fontFamily: 'Playfair Display' }}> AI</span>
           </div>
 
           {/* Headline */}
@@ -44,10 +48,10 @@ export default function OGImage() {
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '72px', fontWeight: 900, lineHeight: 1, color: '#1a1a16' }}>
+              <span style={{ fontSize: '72px', fontWeight: 900, lineHeight: 1, color: '#1a1a16', fontFamily: 'Playfair Display' }}>
                 Get Found
               </span>
-              <span style={{ fontSize: '72px', fontWeight: 900, lineHeight: 1, color: '#1a1a16' }}>
+              <span style={{ fontSize: '72px', fontWeight: 900, lineHeight: 1, color: '#1a1a16', fontFamily: 'Playfair Display' }}>
                 in AI Search.
               </span>
             </div>
@@ -107,6 +111,16 @@ export default function OGImage() {
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        {
+          name: 'Playfair Display',
+          data: playfairData,
+          style: 'normal',
+          weight: 900,
+        },
+      ],
+    }
   );
 }
