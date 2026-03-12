@@ -33,11 +33,12 @@ export default function LeadForm() {
       const submissionId = crypto.randomUUID();
       const businessName = (payload["businessName"] as string) || "";
 
-      // Fire webhook with session_id included — don't wait for response
+      // Fire webhook with session_id included — keepalive ensures it completes after navigation
       fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload, session_id: submissionId }),
+        keepalive: true,
       });
 
       // Redirect immediately — polling handles the rest
