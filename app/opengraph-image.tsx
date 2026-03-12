@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'NextLocal AI — Get Found in AI Search';
+export const alt = 'NextLocal AI — AI Visibility for Local Businesses';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -13,8 +13,8 @@ export default function OGImage() {
           width: '1200px',
           height: '630px',
           display: 'flex',
+          flexDirection: 'row',
           backgroundColor: '#f5f2eb',
-          fontFamily: 'Georgia, serif',
         }}
       >
         {/* Left panel */}
@@ -29,108 +29,80 @@ export default function OGImage() {
           }}
         >
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0px' }}>
-            <span style={{ fontSize: '24px', fontWeight: 900, color: '#1a1a16', letterSpacing: '-0.5px' }}>
-              Next
-            </span>
-            <span style={{ fontSize: '24px', fontWeight: 900, color: '#c8460a', letterSpacing: '-0.5px' }}>
-              Local
-            </span>
-            <span style={{ fontSize: '24px', fontWeight: 900, color: '#1a1a16', letterSpacing: '-0.5px' }}>
-              {' '}AI
-            </span>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#1a1a16' }}>Next</span>
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#c8460a' }}>Local</span>
+            <span style={{ fontSize: '26px', fontWeight: 900, color: '#1a1a16' }}> AI</span>
           </div>
 
           {/* Headline */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-            }}>
-              <div style={{ width: '40px', height: '2px', backgroundColor: '#c8460a', flexShrink: 0 }} />
-              <span style={{
-                fontSize: '11px',
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: '#c8460a',
-                fontFamily: 'monospace',
-              }}>
-                AI Visibility for Local Business
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '12px' }}>
+              <div style={{ width: '36px', height: '2px', backgroundColor: '#c8460a' }} />
+              <span style={{ fontSize: '11px', letterSpacing: '3px', color: '#c8460a' }}>
+                AI VISIBILITY FOR LOCAL BUSINESS
               </span>
             </div>
-            <div style={{
-              fontSize: '64px',
-              fontWeight: 900,
-              lineHeight: 1.0,
-              color: '#1a1a16',
-              display: 'flex',
-              flexDirection: 'column',
-            }}>
-              <span>Get Found</span>
-              <span>in AI Search.</span>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontSize: '72px', fontWeight: 900, lineHeight: 1, color: '#1a1a16' }}>
+                Get Found
+              </span>
+              <span style={{ fontSize: '72px', fontWeight: 900, lineHeight: 1, color: '#1a1a16' }}>
+                in AI Search.
+              </span>
             </div>
           </div>
 
           {/* Tagline */}
-          <div style={{
-            fontSize: '18px',
-            color: '#6b6b5e',
-            fontFamily: 'sans-serif',
-            fontWeight: 300,
-            lineHeight: 1.5,
-          }}>
-            When customers ask ChatGPT who to call,<br />
-            your name should come up.
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '20px', color: '#6b6b5e', lineHeight: 1.5 }}>
+              When customers ask ChatGPT who to call,
+            </span>
+            <span style={{ fontSize: '20px', color: '#6b6b5e', lineHeight: 1.5 }}>
+              your name should come up.
+            </span>
           </div>
         </div>
 
         {/* Right panel */}
         <div
           style={{
-            width: '340px',
+            width: '320px',
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: '#1a1a16',
             padding: '64px 48px',
             justifyContent: 'center',
-            gap: '32px',
+            gap: '28px',
           }}
         >
-          {['ChatGPT', 'Perplexity', 'Google AI', 'Claude'].map((platform) => (
-            <div key={platform} style={{
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '14px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '4px', backgroundColor: '#c8460a' }} />
+            <span style={{ fontSize: '20px', color: '#ede9de' }}>ChatGPT</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '14px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '4px', backgroundColor: '#c8460a' }} />
+            <span style={{ fontSize: '20px', color: '#ede9de' }}>Perplexity</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '14px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '4px', backgroundColor: '#c8460a' }} />
+            <span style={{ fontSize: '20px', color: '#ede9de' }}>Google AI</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '14px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '4px', backgroundColor: '#c8460a' }} />
+            <span style={{ fontSize: '20px', color: '#ede9de' }}>Claude</span>
+          </div>
+          <div
+            style={{
+              marginTop: '16px',
+              paddingTop: '28px',
+              borderTop: '1px solid rgba(237,233,222,0.15)',
               display: 'flex',
-              alignItems: 'center',
-              gap: '14px',
-            }}>
-              <div style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#c8460a',
-                flexShrink: 0,
-              }} />
-              <span style={{
-                fontSize: '20px',
-                color: '#ede9de',
-                fontFamily: 'monospace',
-                letterSpacing: '0.05em',
-              }}>
-                {platform}
-              </span>
-            </div>
-          ))}
-
-          <div style={{
-            marginTop: '16px',
-            paddingTop: '32px',
-            borderTop: '1px solid rgba(237,233,222,0.15)',
-            fontSize: '13px',
-            fontFamily: 'monospace',
-            color: '#6b6b5e',
-            letterSpacing: '0.1em',
-          }}>
-            nextlocal.ai
+            }}
+          >
+            <span style={{ fontSize: '13px', color: '#6b6b5e', letterSpacing: '2px' }}>
+              NEXTLOCAL.AI
+            </span>
           </div>
         </div>
       </div>
