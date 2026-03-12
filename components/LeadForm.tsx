@@ -3,7 +3,7 @@
 import { useState, FormEvent } from "react";
 
 const WEBHOOK_URL =
-  "https://hook.us2.make.com/e5u4uj5un5wkoy4qi5tvpwztfsree5ry";
+  "https://hook.us2.make.com/ryxzfq6q5oswd67fxyvyxx5mw61j";
 
 const labelStyle = {
   fontFamily: '"IBM Plex Mono", monospace',
