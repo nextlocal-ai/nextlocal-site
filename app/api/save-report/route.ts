@@ -28,17 +28,23 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const { session_id, ...reportFields } = body;
 
     // Generate a short random ID
     const id = randomUUID().replace(/-/g, '').slice(0, 12);
 
     const report: ReportData = {
-      ...body,
+      ...reportFields,
       created_at: new Date().toISOString(),
     };
 
-    // Store for 30 days
+    // Store report for 30 days
     await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
+
+    // If a session_id was provided, store the mapping so the polling page can find it
+    if (session_id) {
+      await kv.set(`session:${session_id}`, id, { ex: 60 * 60 * 24 });
+    }
 
     return NextResponse.json({ id, report_url: `/report/${id}` });
   } catch (err) {
