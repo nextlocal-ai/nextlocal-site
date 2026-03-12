@@ -44,7 +44,8 @@ type StepState = 'idle' | 'active' | 'done';
 function GeneratingContent() {
   const searchParams = useSearchParams();
   const bizName = searchParams.get('business_name') || searchParams.get('name') || 'Your Business';
-  const reportUrl = searchParams.get('report_url');
+  const reportId = searchParams.get('report_id');
+  const reportUrl = searchParams.get('report_url') || (reportId ? `/report/${reportId}` : null);
   const submissionId = searchParams.get('submission_id');
 
   const [stepStates, setStepStates] = useState<StepState[]>(['idle', 'idle', 'idle', 'idle', 'idle']);
