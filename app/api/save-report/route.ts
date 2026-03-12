@@ -18,21 +18,23 @@ export interface ReportData {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  // Generate a short random ID
-  const id = randomUUID().replace(/-/g, '').slice(0, 12);
+    // Generate a short random ID
+    const id = randomUUID().replace(/-/g, '').slice(0, 12);
 
-  const report: ReportData = {
-    ...body,
-    created_at: new Date().toISOString(),
-  };
+    const report: ReportData = {
+      ...body,
+      created_at: new Date().toISOString(),
+    };
 
-  // Store for 30 days
-  await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
+    // Store for 30 days
+    await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
 
-  return NextResponse.json({
-    id,
-    report_url: `/report/${id}`,
-  });
+    return NextResponse.json({ id, report_url: `/report/${id}` });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
