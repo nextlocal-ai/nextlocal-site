@@ -208,7 +208,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         <div className="px-8 md:px-12 py-16 md:py-20 flex flex-col items-center justify-center gap-4"
           style={{ backgroundColor: '#ede9de' }}>
           <a
-            href="https://cal.com/nextlocal"
+            href="https://calendar.app.google/jGetcA5qNj7pHp3Y9"
             target="_blank"
             rel="noopener noreferrer"
             style={{
