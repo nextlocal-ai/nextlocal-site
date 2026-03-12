@@ -39,12 +39,9 @@ export default function LeadForm() {
       const responseText = await res.text();
       const businessName = (payload["businessName"] as string) || "";
 
-      // Extract submission_id from the URL Make returns in its response body
-      let submissionId = "";
-      try {
-        const returnedUrl = new URL(responseText.trim());
-        submissionId = returnedUrl.searchParams.get("submission_id") || "";
-      } catch { /* response wasn't a URL, fall through */ }
+      // Extract submission_id from Make's response body (handles newlines/whitespace in URL)
+      const match = responseText.match(/submission_id=([^&\s]+)/);
+      const submissionId = match ? match[1] : "";
 
       const params = new URLSearchParams({ business_name: businessName });
       if (submissionId) params.set("submission_id", submissionId);
