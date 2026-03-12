@@ -1,9 +1,4 @@
-import { Redis } from '@upstash/redis';
-
-const kv = new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
-});
+import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
 import type { ReportData } from '@/app/api/save-report/route';
 

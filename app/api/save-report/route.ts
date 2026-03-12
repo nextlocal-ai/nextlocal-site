@@ -1,9 +1,4 @@
-import { Redis } from '@upstash/redis';
-
-const kv = new Redis({
-  url: process.env.KV_REST_API_URL!,
-  token: process.env.KV_REST_API_TOKEN!,
-});
+import { kv } from '@vercel/kv';
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 
