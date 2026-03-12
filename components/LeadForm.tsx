@@ -36,6 +36,10 @@ export default function LeadForm() {
         body: JSON.stringify(payload),
       });
 
+      if (!res.ok) {
+        throw new Error(`Webhook error: ${res.status}`);
+      }
+
       const responseText = await res.text();
       const businessName = (payload["businessName"] as string) || "";
 
