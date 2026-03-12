@@ -21,17 +21,25 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "NextLocal AI — Get Found in AI Search",
+  title: "NextLocal AI — AI Visibility for Local Businesses",
   description:
     "AI optimization for local businesses. When customers ask ChatGPT, Perplexity, or Google AI who to call — we make sure your name comes up. Done-for-you service starting at $997/month.",
   openGraph: {
-    title: "NextLocal AI — Get Found in AI Search",
+    title: "NextLocal AI — AI Visibility for Local Businesses",
     description:
       "AI optimization for local businesses. When customers ask ChatGPT, Perplexity, or Google AI who to call — we make sure your name comes up.",
     url: "https://nextlocal.ai",
     siteName: "NextLocal AI",
     locale: "en_US",
     type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NextLocal AI — AI Visibility for Local Businesses",
+    description:
+      "AI optimization for local businesses. When customers ask ChatGPT, Perplexity, or Google AI who to call — we make sure your name comes up.",
+    images: ["/opengraph-image"],
   },
 };
 
