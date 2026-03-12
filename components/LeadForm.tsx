@@ -30,14 +30,25 @@ export default function LeadForm() {
     const payload = Object.fromEntries(data.entries());
 
     try {
-      await fetch(WEBHOOK_URL, {
+      const res = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
+      const responseText = await res.text();
       const businessName = (payload["businessName"] as string) || "";
-      window.location.href = `https://nextlocal.ai/generating?business_name=${encodeURIComponent(businessName)}`;
+
+      // Extract submission_id from the URL Make returns in its response body
+      let submissionId = "";
+      try {
+        const returnedUrl = new URL(responseText.trim());
+        submissionId = returnedUrl.searchParams.get("submission_id") || "";
+      } catch { /* response wasn't a URL, fall through */ }
+
+      const params = new URLSearchParams({ business_name: businessName });
+      if (submissionId) params.set("submission_id", submissionId);
+      window.location.href = `https://nextlocal.ai/generating?${params}`;
     } catch {
       setError("Something went wrong. Please try again or email hello@nextlocal.ai.");
       setLoading(false);
