@@ -30,25 +30,18 @@ export default function LeadForm() {
     const payload = Object.fromEntries(data.entries());
 
     try {
-      const res = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        throw new Error(`Webhook error: ${res.status}`);
-      }
-
-      const responseText = await res.text();
+      const submissionId = crypto.randomUUID();
       const businessName = (payload["businessName"] as string) || "";
 
-      // Extract submission_id from Make's response body (handles newlines/whitespace in URL)
-      const match = responseText.match(/submission_id=([^&\s]+)/);
-      const submissionId = match ? match[1] : "";
+      // Fire webhook with session_id included — don't wait for response
+      fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, session_id: submissionId }),
+      });
 
-      const params = new URLSearchParams({ business_name: businessName });
-      if (submissionId) params.set("submission_id", submissionId);
+      // Redirect immediately — polling handles the rest
+      const params = new URLSearchParams({ business_name: businessName, submission_id: submissionId });
       window.location.href = `https://nextlocal.ai/generating?${params}`;
     } catch {
       setError("Something went wrong. Please try again or email hello@nextlocal.ai.");
