@@ -93,6 +93,17 @@ export default function LeadForm() {
         <input placeholder="(555) 123-4567" className="w-full input-underline" type="tel" name="phone" />
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>City</label>
+          <input required placeholder="Austin" className="w-full input-underline" type="text" name="city" />
+        </div>
+        <div>
+          <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>State</label>
+          <input required placeholder="TX" className="w-full input-underline" type="text" name="state" />
+        </div>
+      </div>
+
       <div>
         <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>Business Website</label>
         <input placeholder="yourbusiness.com" className="w-full input-underline" type="text" name="businessWebsite" />
