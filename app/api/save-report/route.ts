@@ -17,6 +17,14 @@ export interface ReportData {
   created_at: string;
 }
 
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    has_url: !!process.env.KV_REST_API_URL,
+    has_token: !!process.env.KV_REST_API_TOKEN,
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
