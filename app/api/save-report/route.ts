@@ -37,7 +37,21 @@ export async function POST(req: NextRequest) {
     } else {
       body = await req.json();
     }
-    const { session_id, city, state, ...reportFields } = body;
+    // Unwrap Make data structure nesting if present (e.g. { SaveReport: { ... } })
+    const unwrapped = Object.keys(body).length === 1 && typeof Object.values(body)[0] === 'object'
+      ? Object.values(body)[0] as Record<string, string>
+      : body;
+
+    // Normalize keys: camelCase and "Title Case" → snake_case
+    function normalizeKey(k: string): string {
+      return k.replace(/([A-Z])/g, '_$1').toLowerCase().replace(/ /g, '_').replace(/^_/, '');
+    }
+    const normalized: Record<string, string> = {};
+    for (const [k, v] of Object.entries(unwrapped)) {
+      normalized[normalizeKey(k)] = v as string;
+    }
+
+    const { session_id, city, state, ...reportFields } = normalized;
 
     // Generate a short random ID
     const id = randomUUID().replace(/-/g, '').slice(0, 12);

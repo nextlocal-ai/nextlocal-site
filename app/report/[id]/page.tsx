@@ -3,13 +3,15 @@ import { notFound } from 'next/navigation';
 import type { ReportData } from '@/app/api/save-report/route';
 import AIVisibilitySection from './AIVisibilitySection';
 
-function gradeColor(grade: string) {
+function gradeColor(grade: string | undefined) {
+  if (!grade) return '#c8460a';
   const g = grade.toUpperCase();
   if (g.startsWith('A') || g.startsWith('B')) return '#1a1a16';
   return '#c8460a';
 }
 
-function gradeDescriptor(grade: string) {
+function gradeDescriptor(grade: string | undefined) {
+  if (!grade) return '—';
   const g = grade.toUpperCase();
   if (g.startsWith('A')) return 'Excellent';
   if (g.startsWith('B')) return 'Good';
