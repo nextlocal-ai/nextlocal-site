@@ -6,6 +6,59 @@ import type { ReportData } from '@/app/api/save-report/route';
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+async function fetchWebsiteSignals(url: string): Promise<string> {
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NextLocalAI/1.0)' },
+      signal: AbortSignal.timeout(8000),
+    });
+    const html = await res.text();
+
+    const signals: string[] = [];
+
+    // Schema markup
+    const schemaMatches = html.match(/"@type"\s*:\s*"([^"]+)"/g) || [];
+    const schemaTypes = [...new Set(schemaMatches.map(m => m.match(/"([^"]+)"$/)?.[1]))].filter(Boolean);
+    if (schemaTypes.length) signals.push(`Schema markup present: ${schemaTypes.join(', ')}`);
+    else signals.push('No JSON-LD schema markup detected');
+
+    // Meta tags
+    const title = html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim();
+    if (title) signals.push(`Page title: "${title}"`);
+
+    const metaDesc = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)?.[1];
+    if (metaDesc) signals.push(`Meta description present (${metaDesc.length} chars)`);
+    else signals.push('No meta description');
+
+    // OG tags
+    const hasOG = /<meta[^>]+property=["']og:/i.test(html);
+    signals.push(hasOG ? 'Open Graph tags present' : 'No Open Graph tags');
+
+    // Mobile viewport
+    const hasViewport = /<meta[^>]+name=["']viewport["']/i.test(html);
+    signals.push(hasViewport ? 'Mobile viewport tag present' : 'No mobile viewport tag');
+
+    // HTTPS
+    signals.push(url.startsWith('https://') ? 'HTTPS enabled' : 'Not on HTTPS');
+
+    // Heading structure
+    const h1s = (html.match(/<h1[^>]*>/gi) || []).length;
+    signals.push(`H1 tags: ${h1s}`);
+
+    // Phone number presence
+    const hasPhone = /(\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4})/.test(html);
+    signals.push(hasPhone ? 'Phone number found on page' : 'No phone number detected');
+
+    // Address/NAP
+    const hasAddress = /<address|itemprop=["']address["']|streetAddress/i.test(html);
+    signals.push(hasAddress ? 'Address markup found' : 'No address markup detected');
+
+    return signals.join('\n');
+  } catch {
+    return 'Could not fetch website (timeout or blocked)';
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     let { business_name, business_type, city, state, website } = await req.json();
@@ -17,6 +70,10 @@ export async function POST(req: NextRequest) {
 
     const location = state ? `${city}, ${state}` : city;
 
+    const websiteSignals = website
+      ? await fetchWebsiteSignals(website)
+      : 'No website provided';
+
     const prompt = `You are an AI visibility analyst. Grade the following local business on their AI search visibility.
 
 Business: ${business_name}
@@ -24,16 +81,19 @@ Type: ${business_type}
 Location: ${location}
 Website: ${website || 'Not provided'}
 
-Grade each category from A to F based on what you can reasonably infer about a typical ${business_type} in ${location}. Be honest and critical — most local businesses have significant gaps.
+WEBSITE ANALYSIS (actual signals detected):
+${websiteSignals}
 
-Categories to grade:
+Grade each category from A to F. Use the actual website signals above for website_grade — do not guess. For other categories, use your knowledge of typical ${business_type} businesses in ${location}.
+
+Categories:
 - gbp_grade: Google Business Profile quality (completeness, photos, posts, Q&A)
 - reviews_grade: Review count, rating, recency, and owner responses
-- citations_grade: NAP consistency across directories (Yelp, BBB, Apple Maps, etc.)
-- website_grade: Schema markup, mobile optimization, structured data, content quality
-- ai_grade: Entity presence, Wikipedia/Reddit/LinkedIn mentions, AI recommendation likelihood
+- citations_grade: NAP consistency across Yelp, BBB, Apple Maps, etc.
+- website_grade: Based ONLY on the actual signals detected above — schema, mobile, meta, structure
+- ai_grade: Entity presence on Wikipedia/Reddit/LinkedIn, AI recommendation likelihood
 
-Return ONLY valid JSON in this exact format:
+Return ONLY valid JSON:
 {
   "overall_grade": "C",
   "gbp_grade": "B",
@@ -41,8 +101,8 @@ Return ONLY valid JSON in this exact format:
   "citations_grade": "D",
   "website_grade": "C",
   "ai_grade": "F",
-  "narrative": "2-3 sentence summary of their AI visibility situation, specific to this business type and market.",
-  "action_1": "First most important action to take, specific and actionable.",
+  "narrative": "2-3 sentence summary of their AI visibility situation.",
+  "action_1": "Most important action, specific and actionable.",
   "action_2": "Second priority action.",
   "action_3": "Third priority action."
 }`;
