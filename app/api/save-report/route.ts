@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       console.log('[save-report] WARNING: no session_id received');
     }
 
-    return NextResponse.json({ id, report_url: `/report/${id}` });
+    return NextResponse.json({ id, report_url: `/report/${id}`, received_session_id: session_id || null });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ error: message }, { status: 500 });
