@@ -31,7 +31,7 @@ export async function GET() {
 
 // camelCase / "Title Case" / "snake_case" → snake_case
 function normalizeKey(k: string): string {
-  return k.replace(/([A-Z])/g, '_$1').toLowerCase().replace(/ /g, '_').replace(/^_/, '');
+  return k.replace(/([A-Z])/g, '_$1').toLowerCase().replace(/ /g, '_').replace(/^_/, '').replace(/_+$/, '');
 }
 
 export async function POST(req: NextRequest) {
