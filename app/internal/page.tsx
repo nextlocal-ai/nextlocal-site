@@ -8,6 +8,18 @@ interface GradeBlock {
   specifics: string[];
 }
 
+interface AIQueryResult {
+  query: string;
+  response: string;
+  mentioned: boolean;
+  error?: string;
+}
+
+interface AIVisibility {
+  chatgpt: AIQueryResult;
+  perplexity: AIQueryResult;
+}
+
 interface Brief {
   business_name: string;
   business_type: string;
@@ -94,6 +106,7 @@ export default function InternalPage() {
   const [cityState, setCityState] = useState('');
   const [pageState, setPageState] = useState<PageState>('idle');
   const [brief, setBrief] = useState<Brief | null>(null);
+  const [aiVisibility, setAiVisibility] = useState<AIVisibility | null>(null);
   const [reportId, setReportId] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
@@ -113,6 +126,7 @@ export default function InternalPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong');
       setBrief(data.brief);
+      setAiVisibility(data.ai_visibility || null);
       setReportId(data.report_id || '');
       setPageState('done');
     } catch (err) {
@@ -123,6 +137,7 @@ export default function InternalPage() {
 
   function reset() {
     setBrief(null);
+    setAiVisibility(null);
     setReportId('');
     setPageState('idle');
     setError('');
@@ -357,6 +372,41 @@ export default function InternalPage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {/* AI Visibility */}
+            {aiVisibility && (
+              <div>
+                <SectionLabel>AI Visibility — What They Actually Say</SectionLabel>
+                <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {(['chatgpt', 'perplexity'] as const).map(platform => {
+                    const result = aiVisibility[platform];
+                    const label = platform === 'chatgpt' ? 'ChatGPT' : 'Perplexity';
+                    return (
+                      <div key={platform} style={{ border: `1px solid ${result.mentioned ? 'rgba(34,197,94,0.4)' : 'rgba(237,233,222,0.15)'}`, borderRadius: '4px', overflow: 'hidden' }}>
+                        <div style={{ padding: '10px 14px', backgroundColor: result.mentioned ? 'rgba(34,197,94,0.1)' : 'rgba(237,233,222,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <span style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#ede9de' }}>{label}</span>
+                          <span style={{ fontFamily: 'monospace', fontSize: '11px', color: result.mentioned ? '#22c55e' : '#f87171', fontWeight: 600 }}>
+                            {result.error ? 'Error' : result.mentioned ? '✓ Mentioned' : '✗ Not mentioned'}
+                          </span>
+                        </div>
+                        <div style={{ padding: '12px 14px' }}>
+                          <p style={{ fontFamily: 'monospace', fontSize: '10px', color: '#6b6b5e', marginBottom: '8px', fontStyle: 'italic' }}>
+                            Query: &ldquo;{result.query}&rdquo;
+                          </p>
+                          {result.error ? (
+                            <p style={{ fontFamily: 'monospace', fontSize: '11px', color: '#f87171' }}>{result.error}</p>
+                          ) : (
+                            <p style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.65, whiteSpace: 'pre-wrap' }}>
+                              {result.response}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 

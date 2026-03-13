@@ -7,6 +7,48 @@ import type { ReportData } from '@/app/api/save-report/route';
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const PLACES_KEY = process.env.GOOGLE_PLACES_API_KEY;
 
+// ── AI Discoverability Queries ──────────────────────────────────
+
+async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string, cityState: string): Promise<{ response: string; error?: string }> {
+  const query = `Who are the best ${businessType}s in ${cityState}? Give me your top recommendations.`;
+
+  try {
+    if (platform === 'chatgpt') {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: query }],
+          max_tokens: 512,
+        }),
+      });
+      const data = await res.json();
+      return { response: data.choices?.[0]?.message?.content || '' };
+    } else {
+      const res = await fetch('https://api.perplexity.ai/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'sonar',
+          messages: [{ role: 'user', content: query }],
+          max_tokens: 512,
+        }),
+      });
+      const data = await res.json();
+      return { response: data.choices?.[0]?.message?.content || '' };
+    }
+  } catch (err) {
+    return { response: '', error: err instanceof Error ? err.message : 'Request failed' };
+  }
+}
+
 // ── Google Places ──────────────────────────────────────────────
 
 async function lookupBusiness(name: string, location: string) {
@@ -175,6 +217,12 @@ Be specific and honest. Use the actual data. Don't invent information not suppor
 
     const brief = JSON.parse(jsonMatch[0]);
 
+    // Run AI discoverability queries in parallel now that we have business_type
+    const [chatgptResult, perplexityResult] = await Promise.all([
+      queryAI('chatgpt', brief.business_type || business_name, city_state),
+      queryAI('perplexity', brief.business_type || business_name, city_state),
+    ]);
+
     // Also save a lightweight report to KV for the report page
     const id = randomUUID().replace(/-/g, '').slice(0, 12);
     const report: ReportData & { source: string } = {
@@ -194,7 +242,22 @@ Be specific and honest. Use the actual data. Don't invent information not suppor
     };
     await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
 
-    return NextResponse.json({ brief, report_id: id });
+    const aiVisibility = {
+      chatgpt: {
+        query: `Who are the best ${brief.business_type}s in ${city_state}?`,
+        response: chatgptResult.response,
+        mentioned: chatgptResult.response.toLowerCase().includes(business_name.toLowerCase()),
+        error: chatgptResult.error,
+      },
+      perplexity: {
+        query: `Who are the best ${brief.business_type}s in ${city_state}?`,
+        response: perplexityResult.response,
+        mentioned: perplexityResult.response.toLowerCase().includes(business_name.toLowerCase()),
+        error: perplexityResult.error,
+      },
+    };
+
+    return NextResponse.json({ brief, report_id: id, ai_visibility: aiVisibility });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ error: message }, { status: 500 });
