@@ -21,7 +21,7 @@ async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'gpt-4o-mini-search-preview',
           messages: [{ role: 'user', content: query }],
           max_tokens: 512,
         }),
