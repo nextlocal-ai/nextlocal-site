@@ -160,7 +160,12 @@ export default function LeadForm() {
         </div>
         <div>
           <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>State</label>
-          <input required placeholder="TX" className="w-full input-underline" type="text" name="state" />
+          <select required name="state" className="w-full input-underline" defaultValue="" style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '13px', background: 'transparent', cursor: 'pointer' }}>
+            <option value="" disabled>Select state</option>
+            {["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"].map(s => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
         </div>
       </div>
 

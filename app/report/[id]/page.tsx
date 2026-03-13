@@ -53,11 +53,13 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       <nav style={{ backgroundColor: '#f5f2eb', borderBottom: '2px solid #1a1a16' }}
         className="px-6 md:px-10 py-4 flex items-center justify-between">
         <Logo />
-        <span style={{
-          fontFamily: 'var(--font-ibm-plex-mono), monospace',
-          fontSize: '11px', letterSpacing: '0.14em',
-          color: '#6b6b5e', textTransform: 'uppercase',
-        }}>nextlocal.ai</span>
+        <a href="/" style={{ textDecoration: 'none' }}>
+          <span style={{
+            fontFamily: 'var(--font-ibm-plex-mono), monospace',
+            fontSize: '11px', letterSpacing: '0.14em',
+            color: '#6b6b5e', textTransform: 'uppercase',
+          }}>nextlocal.ai</span>
+        </a>
       </nav>
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
@@ -260,16 +262,20 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
 
 function Logo() {
   return (
-    <span style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '20px', color: '#1a1a16' }}>
-      Next<span style={{ color: '#c8460a' }}>Local</span> AI
-    </span>
+    <a href="/" style={{ textDecoration: 'none' }}>
+      <span style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '20px', color: '#1a1a16' }}>
+        Next<span style={{ color: '#c8460a' }}>Local</span> AI
+      </span>
+    </a>
   );
 }
 
 function LogoLight() {
   return (
-    <span style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '20px', color: '#f5f2eb' }}>
-      Next<span style={{ color: '#c8460a' }}>Local</span> AI
-    </span>
+    <a href="/" style={{ textDecoration: 'none' }}>
+      <span style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '20px', color: '#f5f2eb' }}>
+        Next<span style={{ color: '#c8460a' }}>Local</span> AI
+      </span>
+    </a>
   );
 }
