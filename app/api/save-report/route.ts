@@ -37,13 +37,14 @@ export async function POST(req: NextRequest) {
     } else {
       body = await req.json();
     }
-    const { session_id, ...reportFields } = body;
+    const { session_id, city, state, ...reportFields } = body;
 
     // Generate a short random ID
     const id = randomUUID().replace(/-/g, '').slice(0, 12);
 
     const report: ReportData = {
       ...reportFields,
+      city_state: city && state ? `${city}, ${state}` : (reportFields.city_state || ''),
       created_at: new Date().toISOString(),
     };
 
