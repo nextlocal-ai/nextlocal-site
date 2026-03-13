@@ -2,8 +2,21 @@
 import { useState } from 'react';
 
 function renderMarkdown(text: string): string {
-  return text
+  // Strip trailing generic advice after the last business listing
+  const cutoffs = [
+    'When selecting', 'Before making', 'It is advisable', 'Additionally,',
+    'Consider obtaining', 'To find the best',
+  ];
+  let trimmed = text;
+  for (const cutoff of cutoffs) {
+    const idx = trimmed.lastIndexOf('\n' + cutoff);
+    if (idx > trimmed.length / 2) { trimmed = trimmed.slice(0, idx); break; }
+  }
+
+  return trimmed
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#0ea5e9;text-decoration:underline">$1</a>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/_([^_]+)_/g, '<em style="color:#6b6b5e">$1</em>')
     .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')
     .replace(/^- /gm, '• ')
     .replace(/\n\n/g, '<br/><br/>')
