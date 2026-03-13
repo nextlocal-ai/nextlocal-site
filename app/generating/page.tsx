@@ -128,7 +128,7 @@ function GeneratingContent() {
   useEffect(() => {
     if (!submissionId || reportUrl) return;
     let pollCount = 0;
-    const maxPolls = 30;
+    const maxPolls = 90;
     let timeoutId: ReturnType<typeof setTimeout>;
 
     function poll() {

@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
     await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
 
     // If a session_id was provided, store the mapping so the polling page can find it
+    console.log('[save-report] session_id:', session_id, '| report id:', id, '| keys received:', Object.keys(normalized));
     if (session_id) {
       await kv.set(`session:${session_id}`, id, { ex: 60 * 60 * 24 });
     }
