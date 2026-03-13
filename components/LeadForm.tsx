@@ -69,7 +69,43 @@ export default function LeadForm() {
 
       <div className="relative">
         <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>Business Type</label>
-        <input name="businessType" required placeholder="e.g. plumber, divorce attorney, dentist" className="w-full input-underline" />
+        <input name="businessType" required placeholder="e.g. plumber, divorce attorney, dentist" className="w-full input-underline" list="business-type-suggestions" autoComplete="off" />
+        <datalist id="business-type-suggestions">
+          <option value="Plumber" />
+          <option value="Electrician" />
+          <option value="HVAC contractor" />
+          <option value="Roofer" />
+          <option value="Landscaper" />
+          <option value="House cleaner" />
+          <option value="Pest control" />
+          <option value="Pool service" />
+          <option value="Painter" />
+          <option value="General contractor" />
+          <option value="Divorce attorney" />
+          <option value="Personal injury attorney" />
+          <option value="Estate planning attorney" />
+          <option value="CPA / accountant" />
+          <option value="Financial advisor" />
+          <option value="Insurance agent" />
+          <option value="Mortgage broker" />
+          <option value="Doctor" />
+          <option value="Dentist" />
+          <option value="Orthodontist" />
+          <option value="Chiropractor" />
+          <option value="Physical therapist" />
+          <option value="Optometrist" />
+          <option value="Dermatologist" />
+          <option value="Pediatrician" />
+          <option value="Real estate agent" />
+          <option value="Property manager" />
+          <option value="Home inspector" />
+          <option value="Auto mechanic" />
+          <option value="Auto body shop" />
+          <option value="Veterinarian" />
+          <option value="Wedding photographer" />
+          <option value="Personal trainer" />
+          <option value="Interior designer" />
+        </datalist>
       </div>
 
       <div>
