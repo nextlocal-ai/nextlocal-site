@@ -14,16 +14,16 @@ async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string,
 
   try {
     if (platform === 'chatgpt') {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [{ role: 'user', content: query }],
-          max_tokens: 512,
+          model: 'gpt-4o-search-preview',
+          tools: [{ type: 'web_search_preview' }],
+          input: query,
         }),
       });
       const data = await res.json();
@@ -31,7 +31,9 @@ async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string,
       if (!res.ok) {
         return { response: '', error: data.error?.message || `HTTP ${res.status}` };
       }
-      return { response: data.choices?.[0]?.message?.content || '' };
+      const textBlock = data.output?.find((o: { type: string }) => o.type === 'message')
+        ?.content?.find((c: { type: string }) => c.type === 'output_text');
+      return { response: textBlock?.text || '' };
     } else {
       const res = await fetch('https://api.perplexity.ai/chat/completions', {
         method: 'POST',
