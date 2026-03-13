@@ -2,8 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 import type { ReportData } from '@/app/api/save-report/route';
 
+const QUERY_LABELS: Record<string, string> = {
+  'Contractor/Trades': 'contractors and tradespeople',
+  'Legal Services': 'attorneys and law firms',
+  'Medical/Dental': 'medical and dental providers',
+  'Real Estate': 'real estate agents',
+  'Financial Services': 'financial advisors',
+  'Home Services': 'home service companies',
+};
+
 async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string, cityState: string) {
-  const query = `Who are the best ${businessType}s in ${cityState}? Give me your top recommendations.`;
+  const label = QUERY_LABELS[businessType] ?? businessType;
+  const query = `Who are the best ${label} in ${cityState}? Give me your top recommendations.`;
 
   try {
     if (platform === 'chatgpt') {
@@ -53,7 +63,9 @@ export async function GET(req: NextRequest) {
   const report = await kv.get<ReportData>(`report:${id}`);
   if (!report) return NextResponse.json({ error: 'Report not found' }, { status: 404 });
 
-  const businessType = report.business_type || report.business_name;
+  const businessType = (!report.business_type || report.business_type === 'Other Local Business')
+    ? report.business_name
+    : report.business_type;
   const cityState = report.city_state || '';
 
   const [chatgpt, perplexity] = await Promise.all([
