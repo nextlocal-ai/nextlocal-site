@@ -1,6 +1,74 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
+
+const BUSINESS_TYPES = [
+  "Plumber", "Electrician", "HVAC contractor", "Roofer", "Landscaper",
+  "House cleaner", "Pest control", "Pool service", "Painter", "General contractor",
+  "Divorce attorney", "Personal injury attorney", "Estate planning attorney",
+  "CPA / accountant", "Financial advisor", "Insurance agent", "Mortgage broker",
+  "Doctor", "Dentist", "Orthodontist", "Chiropractor", "Physical therapist",
+  "Optometrist", "Dermatologist", "Pediatrician",
+  "Real estate agent", "Property manager", "Home inspector",
+  "Auto mechanic", "Auto body shop",
+  "Veterinarian", "Wedding photographer", "Personal trainer", "Interior designer",
+];
+
+function BusinessTypeInput() {
+  const [value, setValue] = useState("");
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const matches = value.trim().length > 0
+    ? BUSINESS_TYPES.filter(t => t.toLowerCase().includes(value.toLowerCase()))
+    : [];
+
+  function select(option: string) {
+    setValue(option);
+    setOpen(false);
+  }
+
+  return (
+    <div ref={containerRef} style={{ position: "relative" }}>
+      <input
+        name="businessType"
+        required
+        autoComplete="off"
+        placeholder="e.g. plumber, divorce attorney, dentist"
+        className="w-full input-underline"
+        value={value}
+        onChange={e => { setValue(e.target.value); setOpen(true); }}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        onFocus={() => { if (matches.length > 0) setOpen(true); }}
+      />
+      {open && matches.length > 0 && (
+        <ul style={{
+          position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
+          background: "#f5f2eb", border: "1px solid #1a1a16",
+          listStyle: "none", margin: 0, padding: 0,
+          maxHeight: "200px", overflowY: "auto", zIndex: 50,
+        }}>
+          {matches.map(option => (
+            <li
+              key={option}
+              onMouseDown={() => select(option)}
+              style={{
+                padding: "10px 14px", cursor: "pointer",
+                fontFamily: '"IBM Plex Mono", monospace',
+                fontSize: "12px", color: "#1a1a16",
+                borderBottom: "1px solid rgba(26,26,22,0.08)",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = "#ede9de")}
+              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 const WEBHOOK_URL =
   "https://hook.us2.make.com/ryxzfq6q5oswd67fxyvyxx5mw61jy3h3";
@@ -67,45 +135,9 @@ export default function LeadForm() {
         <input required placeholder="Your Business LLC" className="w-full input-underline" type="text" name="businessName" />
       </div>
 
-      <div className="relative">
+      <div>
         <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>Business Type</label>
-        <input name="businessType" required placeholder="e.g. plumber, divorce attorney, dentist" className="w-full input-underline" list="business-type-suggestions" autoComplete="off" />
-        <datalist id="business-type-suggestions">
-          <option value="Plumber" />
-          <option value="Electrician" />
-          <option value="HVAC contractor" />
-          <option value="Roofer" />
-          <option value="Landscaper" />
-          <option value="House cleaner" />
-          <option value="Pest control" />
-          <option value="Pool service" />
-          <option value="Painter" />
-          <option value="General contractor" />
-          <option value="Divorce attorney" />
-          <option value="Personal injury attorney" />
-          <option value="Estate planning attorney" />
-          <option value="CPA / accountant" />
-          <option value="Financial advisor" />
-          <option value="Insurance agent" />
-          <option value="Mortgage broker" />
-          <option value="Doctor" />
-          <option value="Dentist" />
-          <option value="Orthodontist" />
-          <option value="Chiropractor" />
-          <option value="Physical therapist" />
-          <option value="Optometrist" />
-          <option value="Dermatologist" />
-          <option value="Pediatrician" />
-          <option value="Real estate agent" />
-          <option value="Property manager" />
-          <option value="Home inspector" />
-          <option value="Auto mechanic" />
-          <option value="Auto body shop" />
-          <option value="Veterinarian" />
-          <option value="Wedding photographer" />
-          <option value="Personal trainer" />
-          <option value="Interior designer" />
-        </datalist>
+        <BusinessTypeInput />
       </div>
 
       <div>
