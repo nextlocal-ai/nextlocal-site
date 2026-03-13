@@ -295,7 +295,7 @@ export default function Home() {
             Find out where AI ranks you. For free.
           </h2>
           <p className="text-lg leading-relaxed mb-12 max-w-md" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgba(255, 255, 255, 0.9)" }}>
-            We&apos;ll run your business through our AI audit and show you exactly where you appear — and don&apos;t — across ChatGPT, Gemini, and Perplexity.
+            We&apos;ll audit your business across the five signals that determine whether AI recommends you — and show you exactly what to fix.
           </p>
           <div className="space-y-3">
             <p className="text-[11px] uppercase tracking-wider" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "rgba(255, 255, 255, 0.7)" }}>512-940-6498</p>
