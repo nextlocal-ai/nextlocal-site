@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const WEBHOOK_URL = 'https://hook.us2.make.com/ryxzfq6q5oswd67fxyvyxx5mw61jy3h3';
 
+const REQUIRED_FIELDS = ['firstName', 'lastName', 'businessName', 'businessType', 'email', 'city', 'state'];
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+
+    const missing = REQUIRED_FIELDS.filter(f => !body[f]?.toString().trim());
+    if (missing.length > 0) {
+      return NextResponse.json({ error: `Missing required fields: ${missing.join(', ')}` }, { status: 400 });
+    }
 
     await fetch(WEBHOOK_URL, {
       method: 'POST',
