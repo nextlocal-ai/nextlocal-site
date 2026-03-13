@@ -32,6 +32,8 @@ function renderMarkdown(text: string): string {
   }
   return trimmed
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#c8460a;text-decoration:underline">$1</a>')
+    .replace(/^### (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6b6b5e">$1</strong>')
+    .replace(/^## (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:13px;color:#1a1a16">$1</strong>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/_([^_]+)_/g, '<em style="color:#6b6b5e">$1</em>')
     .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')

@@ -2,11 +2,7 @@
 import { useState } from 'react';
 
 function renderMarkdown(text: string): string {
-  // Strip trailing generic advice after the last business listing
-  const cutoffs = [
-    'When selecting', 'Before making', 'It is advisable', 'Additionally,',
-    'Consider obtaining', 'To find the best',
-  ];
+  const cutoffs = ['When selecting', 'Before making', 'It is advisable', 'Consider obtaining', 'To find the best', 'Other mentions'];
   let trimmed = text;
   for (const cutoff of cutoffs) {
     const idx = trimmed.lastIndexOf('\n' + cutoff);
@@ -15,6 +11,8 @@ function renderMarkdown(text: string): string {
 
   return trimmed
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#0ea5e9;text-decoration:underline">$1</a>')
+    .replace(/^### (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#ede9de">$1</strong>')
+    .replace(/^## (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:13px;color:#ede9de">$1</strong>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/_([^_]+)_/g, '<em style="color:#6b6b5e">$1</em>')
     .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')
