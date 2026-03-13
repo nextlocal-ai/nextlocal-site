@@ -34,7 +34,14 @@ function normalizeKey(k: string): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const raw = await req.json() as Record<string, unknown>;
+    const contentType = req.headers.get('content-type') || '';
+    let raw: Record<string, unknown>;
+    if (contentType.includes('application/x-www-form-urlencoded')) {
+      const text = await req.text();
+      raw = Object.fromEntries(new URLSearchParams(text));
+    } else {
+      raw = await req.json() as Record<string, unknown>;
+    }
 
     // Unwrap Make data structure nesting: { SaveReport: { ... } } → { ... }
     const vals = Object.values(raw);
