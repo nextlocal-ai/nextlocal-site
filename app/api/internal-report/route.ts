@@ -8,7 +8,8 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 export async function POST(req: NextRequest) {
   try {
-    const { business_name, business_type, city, state, website } = await req.json();
+    let { business_name, business_type, city, state, website } = await req.json();
+    if (website && !/^https?:\/\//i.test(website)) website = `https://${website}`;
 
     if (!business_name || !business_type || !city) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

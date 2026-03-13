@@ -149,10 +149,10 @@ export default function InternalPage() {
 
             <Field label="Website">
               <input
-                type="url"
+                type="text"
                 value={form.website}
                 onChange={e => set('website', e.target.value)}
-                placeholder="https://example.com"
+                placeholder="example.com"
                 style={inputStyle}
               />
             </Field>
