@@ -21,7 +21,7 @@ async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-search-preview',
+          model: 'gpt-4o',
           tools: [{ type: 'web_search_preview' }],
           input: query,
         }),
