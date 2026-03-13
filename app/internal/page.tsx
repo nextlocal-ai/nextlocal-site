@@ -1,197 +1,400 @@
 'use client';
 import { useState } from 'react';
 
-const BUSINESS_TYPES = [
-  'Plumber', 'HVAC', 'Electrician', 'Roofer', 'Contractor',
-  'Landscaper', 'Dentist', 'Chiropractor', 'Lawyer', 'Real Estate Agent',
-  'Accountant', 'Financial Advisor', 'Auto Repair', 'Pest Control', 'Cleaning Service',
-  'Other',
-];
+// ── Types ───────────────────────────────────────────────────────
 
-type State = 'idle' | 'loading' | 'done' | 'error';
-
-export default function InternalPage() {
-  const [form, setForm] = useState({
-    business_name: '',
-    business_type: '',
-    city: '',
-    state: '',
-    website: '',
-  });
-  const [status, setStatus] = useState<State>('idle');
-  const [reportUrl, setReportUrl] = useState('');
-  const [error, setError] = useState('');
-
-  function set(field: string, value: string) {
-    setForm(f => ({ ...f, [field]: value }));
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('loading');
-    setError('');
-
-    const res = await fetch('/api/internal-report', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || 'Something went wrong');
-      setStatus('error');
-      return;
-    }
-
-    setReportUrl(data.report_url);
-    setStatus('done');
-  }
-
-  function reset() {
-    setForm({ business_name: '', business_type: '', city: '', state: '', website: '' });
-    setStatus('idle');
-    setReportUrl('');
-  }
-
-  return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#1a1a16', padding: '48px 24px' }}>
-      <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '40px' }}>
-          <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8460a', marginBottom: '8px' }}>
-            NextLocal AI — Internal Tool
-          </p>
-          <h1 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '32px', color: '#ede9de', lineHeight: 1.1 }}>
-            Run a Report
-          </h1>
-        </div>
-
-        {status === 'done' ? (
-          <div style={{ backgroundColor: '#f5f2eb', padding: '40px' }}>
-            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b5e', marginBottom: '16px' }}>
-              Report Ready
-            </p>
-            <p style={{ fontFamily: 'Georgia, serif', fontSize: '24px', fontWeight: 900, color: '#1a1a16', marginBottom: '24px' }}>
-              {form.business_name}
-            </p>
-            <a
-              href={reportUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'block', padding: '14px 24px', backgroundColor: '#c8460a',
-                color: 'white', fontFamily: 'monospace', fontSize: '11px',
-                letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none',
-                textAlign: 'center', marginBottom: '12px',
-              }}
-            >
-              View Report →
-            </a>
-            <button
-              onClick={reset}
-              style={{
-                width: '100%', padding: '14px', backgroundColor: 'transparent',
-                border: '2px solid #1a1a16', color: '#1a1a16', fontFamily: 'monospace',
-                fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
-              }}
-            >
-              Run Another
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} style={{ backgroundColor: '#f5f2eb', padding: '40px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <Field label="Business Name" required>
-              <input
-                type="text"
-                value={form.business_name}
-                onChange={e => set('business_name', e.target.value)}
-                placeholder="Austin Plumbing Co."
-                required
-                style={inputStyle}
-              />
-            </Field>
-
-            <Field label="Business Type" required>
-              <select
-                value={form.business_type}
-                onChange={e => set('business_type', e.target.value)}
-                required
-                style={inputStyle}
-              >
-                <option value="">Select type...</option>
-                {BUSINESS_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
-            </Field>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <Field label="City" required>
-                <input
-                  type="text"
-                  value={form.city}
-                  onChange={e => set('city', e.target.value)}
-                  placeholder="Austin"
-                  required
-                  style={inputStyle}
-                />
-              </Field>
-              <Field label="State">
-                <input
-                  type="text"
-                  value={form.state}
-                  onChange={e => set('state', e.target.value)}
-                  placeholder="TX"
-                  maxLength={2}
-                  style={inputStyle}
-                />
-              </Field>
-            </div>
-
-            <Field label="Website">
-              <input
-                type="text"
-                value={form.website}
-                onChange={e => set('website', e.target.value)}
-                placeholder="example.com"
-                style={inputStyle}
-              />
-            </Field>
-
-            {status === 'error' && (
-              <p style={{ color: '#c8460a', fontFamily: 'monospace', fontSize: '12px' }}>{error}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              style={{
-                padding: '14px', backgroundColor: status === 'loading' ? '#6b6b5e' : '#1a1a16',
-                color: '#f5f2eb', fontFamily: 'monospace', fontSize: '11px',
-                letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none',
-                cursor: status === 'loading' ? 'not-allowed' : 'pointer', marginTop: '8px',
-              }}
-            >
-              {status === 'loading' ? 'Running audit...' : 'Run Report →'}
-            </button>
-          </form>
-        )}
-      </div>
-    </main>
-  );
+interface GradeBlock {
+  grade: string;
+  specifics: string[];
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+interface Brief {
+  business_name: string;
+  business_type: string;
+  location: string;
+  overall_grade: string;
+  grades: {
+    overall: GradeBlock;
+    gbp: GradeBlock;
+    reviews: GradeBlock;
+    citations: GradeBlock;
+    website: GradeBlock;
+    discoverability: GradeBlock;
+  };
+  whats_working: string[];
+  gaps_to_fix: string[];
+  suggested_opening: string;
+  weaknesses_to_lead: string[];
+  strengths_to_acknowledge: string[];
+  key_talking_points: string;
+  red_flags: string[];
+  contact: { phone: string; website: string; address: string };
+}
+
+type PageState = 'idle' | 'loading' | 'done' | 'error';
+
+// ── Helpers ─────────────────────────────────────────────────────
+
+function gradeColor(grade: string) {
+  const g = grade.toUpperCase();
+  if (g.startsWith('A')) return '#22c55e';
+  if (g.startsWith('B')) return '#84cc16';
+  if (g.startsWith('C')) return '#eab308';
+  if (g.startsWith('D')) return '#f97316';
+  return '#c8460a';
+}
+
+// ── Grade Card ──────────────────────────────────────────────────
+
+function GradeCard({ label, block }: { label: string; block: GradeBlock }) {
+  const [open, setOpen] = useState(false);
+  const color = gradeColor(block.grade);
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-      <label style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b5e' }}>
-        {label}{required && ' *'}
-      </label>
-      {children}
+    <div
+      onClick={() => setOpen(o => !o)}
+      style={{
+        border: `2px solid ${open ? color : 'rgba(237,233,222,0.15)'}`,
+        padding: '16px',
+        cursor: 'pointer',
+        transition: 'border-color 0.2s',
+        userSelect: 'none',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b5e' }}>
+          {label}
+        </span>
+        <span style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '28px', color, lineHeight: 1 }}>
+          {block.grade}
+        </span>
+      </div>
+      {open && block.specifics?.length > 0 && (
+        <ul style={{ marginTop: '12px', paddingLeft: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {block.specifics.map((s, i) => (
+            <li key={i} style={{ fontFamily: 'monospace', fontSize: '11px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: `2px solid ${color}` }}>
+              {s}
+            </li>
+          ))}
+        </ul>
+      )}
+      {!open && (
+        <p style={{ marginTop: '6px', fontFamily: 'monospace', fontSize: '10px', color: '#6b6b5e', letterSpacing: '0.08em' }}>
+          Click to expand ↓
+        </p>
+      )}
     </div>
   );
 }
 
-const inputStyle: React.CSSProperties = {
-  padding: '10px 12px', border: '2px solid #1a1a16', backgroundColor: 'white',
-  fontFamily: 'monospace', fontSize: '14px', width: '100%', boxSizing: 'border-box',
-};
+// ── Main Page ───────────────────────────────────────────────────
+
+export default function InternalPage() {
+  const [businessName, setBusinessName] = useState('');
+  const [cityState, setCityState] = useState('');
+  const [pageState, setPageState] = useState<PageState>('idle');
+  const [brief, setBrief] = useState<Brief | null>(null);
+  const [reportId, setReportId] = useState('');
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setPageState('loading');
+    setError('');
+    setBrief(null);
+
+    try {
+      const res = await fetch('/api/internal-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ business_name: businessName, city_state: cityState }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      setBrief(data.brief);
+      setReportId(data.report_id || '');
+      setPageState('done');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      setPageState('error');
+    }
+  }
+
+  function reset() {
+    setBrief(null);
+    setReportId('');
+    setPageState('idle');
+    setError('');
+    setCopied(false);
+  }
+
+  function copyBrief() {
+    if (!brief) return;
+    const lines = [
+      `PRE-CALL BRIEF: ${brief.business_name}`,
+      `${brief.business_type} · ${brief.location}`,
+      `Overall: ${brief.overall_grade}`,
+      '',
+      `SUGGESTED OPENING`,
+      brief.suggested_opening,
+      '',
+      `GRADES`,
+      `GBP: ${brief.grades.gbp.grade} | Reviews: ${brief.grades.reviews.grade} | Citations: ${brief.grades.citations.grade} | Website: ${brief.grades.website.grade} | Discoverability: ${brief.grades.discoverability.grade}`,
+      '',
+      `WEAKNESSES TO LEAD WITH`,
+      ...brief.weaknesses_to_lead.map((w, i) => `${i + 1}. ${w}`),
+      '',
+      `STRENGTHS TO ACKNOWLEDGE`,
+      ...brief.strengths_to_acknowledge.map((s, i) => `${i + 1}. ${s}`),
+      '',
+      `KEY TALKING POINTS`,
+      brief.key_talking_points,
+      '',
+      `RED FLAGS`,
+      ...brief.red_flags.map(r => `• ${r}`),
+      '',
+      `CONTACT`,
+      `Phone: ${brief.contact.phone}`,
+      `Website: ${brief.contact.website}`,
+      `Address: ${brief.contact.address}`,
+    ];
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  return (
+    <main style={{ minHeight: '100vh', backgroundColor: '#1a1a16', padding: '48px 24px' }}>
+      <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: '40px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8460a', marginBottom: '6px' }}>
+              NextLocal AI — Internal
+            </p>
+            <h1 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '28px', color: '#ede9de', lineHeight: 1.1 }}>
+              Brief Generator
+            </h1>
+          </div>
+          {pageState === 'done' && (
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={copyBrief}
+                style={{ padding: '10px 16px', backgroundColor: copied ? '#22c55e' : '#c8460a', color: 'white', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}
+              >
+                {copied ? 'Copied!' : 'Copy Brief'}
+              </button>
+              {reportId && (
+                <a
+                  href={`/report/${reportId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ padding: '10px 16px', backgroundColor: 'transparent', color: '#ede9de', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid rgba(237,233,222,0.3)', textDecoration: 'none' }}
+                >
+                  View Report →
+                </a>
+              )}
+              <button
+                onClick={reset}
+                style={{ padding: '10px 16px', backgroundColor: 'transparent', color: '#6b6b5e', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid rgba(237,233,222,0.15)', cursor: 'pointer' }}
+              >
+                New Search
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '12px', marginBottom: '40px', flexWrap: 'wrap' }}>
+          <input
+            type="text"
+            value={businessName}
+            onChange={e => setBusinessName(e.target.value)}
+            placeholder="Business name"
+            required
+            disabled={pageState === 'loading'}
+            style={{ flex: '1 1 220px', padding: '12px 16px', backgroundColor: '#f5f2eb', border: 'none', fontFamily: 'monospace', fontSize: '14px', color: '#1a1a16', minWidth: '0' }}
+          />
+          <input
+            type="text"
+            value={cityState}
+            onChange={e => setCityState(e.target.value)}
+            placeholder="City, State (e.g. Austin, TX)"
+            required
+            disabled={pageState === 'loading'}
+            style={{ flex: '1 1 200px', padding: '12px 16px', backgroundColor: '#f5f2eb', border: 'none', fontFamily: 'monospace', fontSize: '14px', color: '#1a1a16', minWidth: '0' }}
+          />
+          <button
+            type="submit"
+            disabled={pageState === 'loading'}
+            style={{ padding: '12px 24px', backgroundColor: pageState === 'loading' ? '#6b6b5e' : '#c8460a', color: 'white', fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: pageState === 'loading' ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' }}
+          >
+            {pageState === 'loading' ? 'Generating...' : 'Run Brief →'}
+          </button>
+        </form>
+
+        {/* Loading */}
+        {pageState === 'loading' && (
+          <div style={{ padding: '40px', borderTop: '1px solid rgba(237,233,222,0.1)', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b5e', animation: 'nlPulse 1.5s ease-in-out infinite' }}>
+              Pulling GBP data · analyzing website · building brief...
+            </p>
+          </div>
+        )}
+
+        {/* Error */}
+        {pageState === 'error' && (
+          <div style={{ padding: '20px', border: '1px solid #c8460a', backgroundColor: 'rgba(200,70,10,0.1)' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: '12px', color: '#c8460a' }}>{error}</p>
+          </div>
+        )}
+
+        {/* Brief Output */}
+        {pageState === 'done' && brief && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+
+            {/* Business header */}
+            <div style={{ borderBottom: '1px solid rgba(237,233,222,0.15)', paddingBottom: '24px' }}>
+              <h2 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '32px', color: '#ede9de', marginBottom: '4px' }}>
+                {brief.business_name}
+              </h2>
+              <p style={{ fontFamily: 'monospace', fontSize: '11px', color: '#6b6b5e', letterSpacing: '0.1em' }}>
+                {brief.business_type} · {brief.location}
+              </p>
+            </div>
+
+            {/* Grade cards */}
+            <div>
+              <SectionLabel>Grades — click to expand</SectionLabel>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px', marginTop: '12px' }}>
+                <GradeCard label="Overall" block={brief.grades.overall} />
+                <GradeCard label="Google Business Profile" block={brief.grades.gbp} />
+                <GradeCard label="Reviews" block={brief.grades.reviews} />
+                <GradeCard label="Citations" block={brief.grades.citations} />
+                <GradeCard label="Website" block={brief.grades.website} />
+                <GradeCard label="Discoverability" block={brief.grades.discoverability} />
+              </div>
+            </div>
+
+            {/* Suggested opening */}
+            <div>
+              <SectionLabel>Suggested Opening Line</SectionLabel>
+              <blockquote style={{ marginTop: '12px', borderLeft: '3px solid #c8460a', paddingLeft: '20px' }}>
+                <p style={{ fontFamily: 'Georgia, serif', fontSize: '17px', lineHeight: 1.65, color: '#ede9de', fontStyle: 'italic', fontWeight: 300 }}>
+                  &ldquo;{brief.suggested_opening}&rdquo;
+                </p>
+              </blockquote>
+            </div>
+
+            {/* What's working / Gaps */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              <div>
+                <SectionLabel>What&apos;s Working</SectionLabel>
+                <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
+                  {brief.whats_working.map((item, i) => (
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #22c55e' }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <SectionLabel>Gaps to Fix</SectionLabel>
+                <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
+                  {brief.gaps_to_fix.map((item, i) => (
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #c8460a' }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Weaknesses / Strengths */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              <div>
+                <SectionLabel>Weaknesses to Lead With</SectionLabel>
+                <ol style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0, counterReset: 'item' }}>
+                  {brief.weaknesses_to_lead.map((item, i) => (
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, display: 'flex', gap: '10px' }}>
+                      <span style={{ color: '#c8460a', flexShrink: 0 }}>0{i + 1}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div>
+                <SectionLabel>Strengths to Acknowledge</SectionLabel>
+                <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
+                  {brief.strengths_to_acknowledge.map((item, i) => (
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #6b6b5e' }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Key talking points */}
+            <div>
+              <SectionLabel>Key Talking Points</SectionLabel>
+              <p style={{ marginTop: '12px', fontFamily: 'monospace', fontSize: '13px', color: '#ede9de', lineHeight: 1.75, backgroundColor: 'rgba(237,233,222,0.05)', padding: '20px' }}>
+                {brief.key_talking_points}
+              </p>
+            </div>
+
+            {/* Red flags */}
+            {brief.red_flags?.length > 0 && (
+              <div>
+                <SectionLabel>Red Flags / Urgency Signals</SectionLabel>
+                <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
+                  {brief.red_flags.map((flag, i) => (
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#fbbf24', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #fbbf24' }}>
+                      {flag}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Contact */}
+            <div style={{ borderTop: '1px solid rgba(237,233,222,0.15)', paddingTop: '24px' }}>
+              <SectionLabel>Contact</SectionLabel>
+              <div style={{ marginTop: '12px', display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+                {[
+                  { label: 'Phone', value: brief.contact.phone },
+                  { label: 'Website', value: brief.contact.website },
+                  { label: 'Address', value: brief.contact.address },
+                ].map(({ label, value }) => (
+                  <div key={label}>
+                    <p style={{ fontFamily: 'monospace', fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b5e', marginBottom: '4px' }}>{label}</p>
+                    <p style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de' }}>{value || 'Not found'}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        )}
+      </div>
+
+      <style>{`
+        @keyframes nlPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      `}</style>
+    </main>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b5e' }}>
+      {children}
+    </p>
+  );
+}
