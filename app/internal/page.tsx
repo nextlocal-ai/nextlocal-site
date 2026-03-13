@@ -1,6 +1,15 @@
 'use client';
 import { useState } from 'react';
 
+function renderMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')
+    .replace(/^- /gm, '• ')
+    .replace(/\n\n/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>');
+}
+
 // ── Types ───────────────────────────────────────────────────────
 
 interface GradeBlock {
@@ -398,9 +407,10 @@ export default function InternalPage() {
                           {result.error ? (
                             <p style={{ fontFamily: 'monospace', fontSize: '11px', color: '#f87171' }}>{result.error}</p>
                           ) : (
-                            <p style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.65, whiteSpace: 'pre-wrap' }}>
-                              {result.response}
-                            </p>
+                            <div
+                              style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.75 }}
+                              dangerouslySetInnerHTML={{ __html: renderMarkdown(result.response) }}
+                            />
                           )}
                         </div>
                       </div>
