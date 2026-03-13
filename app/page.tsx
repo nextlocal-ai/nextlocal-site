@@ -1,5 +1,6 @@
 import LeadForm from "@/components/LeadForm";
 import { TopTicker, BusinessTicker } from "@/components/Ticker";
+import TrackableLink from "@/components/TrackableLink";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -117,12 +118,14 @@ export default function Home() {
             >
               FAQ
             </a>
-            <a
+            <TrackableLink
               href="#get-report"
+              eventName="cta_click"
+              eventParams={{ location: 'nav' }}
               className="border-2 border-ink bg-ink text-cream px-5 py-2.5 font-[family-name:var(--font-ibm-plex-mono)] text-xs uppercase tracking-widest hover:bg-orange hover:border-orange transition-colors duration-150"
             >
               Get Free Report →
-            </a>
+            </TrackableLink>
           </div>
         </div>
       </nav>
@@ -146,12 +149,14 @@ export default function Home() {
             or &ldquo;a reliable contractor in Austin&rdquo; — AI picks one
             business and recommends it. We make sure that business is yours.
           </p>
-          <a
+          <TrackableLink
             href="#get-report"
+            eventName="cta_click"
+            eventParams={{ location: 'hero' }}
             className="self-start inline-block border-2 border-orange bg-orange text-cream px-8 py-4 font-[family-name:var(--font-ibm-plex-mono)] text-xs uppercase tracking-widest hover:bg-ink hover:border-ink transition-colors duration-150"
           >
             Get My Free AI Visibility Report →
-          </a>
+          </TrackableLink>
           <p className="mt-4 font-[family-name:var(--font-ibm-plex-mono)] text-xs text-muted">
             Shows exactly where you rank in AI answers — and what to fix.
           </p>

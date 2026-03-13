@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, FormEvent } from "react";
+import { gtagEvent } from "@/lib/gtag";
 
 const BUSINESS_TYPES = [
   "Plumber", "Electrician", "HVAC contractor", "Roofer", "Landscaper",
@@ -100,6 +101,8 @@ export default function LeadForm() {
     try {
       const submissionId = crypto.randomUUID();
       const businessName = (payload["businessName"] as string) || "";
+
+      gtagEvent('form_submit', { business_type: payload['businessType'], city: payload['city'], state: payload['state'] });
 
       // Proxy through our own API to avoid CORS issues with Make
       await fetch("/api/submit", {

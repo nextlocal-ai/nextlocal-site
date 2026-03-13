@@ -2,6 +2,8 @@ import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
 import type { ReportData } from '@/app/api/save-report/route';
 import AIVisibilitySection from './AIVisibilitySection';
+import TrackableLink from '@/components/TrackableLink';
+import ReportViewTracker from './ReportViewTracker';
 
 function gradeColor(grade: string | undefined) {
   if (!grade) return '#c8460a';
@@ -45,6 +47,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
 
   return (
     <main style={{ backgroundColor: '#f5f2eb', color: '#1a1a16', fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 300 }}>
+      <ReportViewTracker businessName={data.business_name} grade={data.overall_grade} />
 
       {/* ── Nav ──────────────────────────────────────────────────── */}
       <nav style={{ backgroundColor: '#f5f2eb', borderBottom: '2px solid #1a1a16' }}
@@ -218,10 +221,11 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         </div>
         <div className="px-8 md:px-12 py-16 md:py-20 flex flex-col items-center justify-center gap-4"
           style={{ backgroundColor: '#ede9de' }}>
-          <a
+          <TrackableLink
             href="https://calendar.app.google/jGetcA5qNj7pHp3Y9"
             target="_blank"
             rel="noopener noreferrer"
+            eventName="book_walkthrough_click"
             style={{
               display: 'block', width: '100%',
               padding: '20px 32px', backgroundColor: '#1a1a16',
@@ -232,7 +236,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
             }}
           >
             Book Your Free 15-Min Report Walkthrough →
-          </a>
+          </TrackableLink>
           <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', letterSpacing: '0.1em', color: '#6b6b5e' }}>
             No obligation. 15 minutes. Real answers.
           </p>
