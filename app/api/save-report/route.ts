@@ -15,6 +15,8 @@ export interface ReportData {
   action_2: string;
   action_3: string;
   created_at: string;
+  business_type?: string;
+  city_state?: string;
 }
 
 export async function GET() {

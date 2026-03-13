@@ -1,6 +1,7 @@
 import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
 import type { ReportData } from '@/app/api/save-report/route';
+import AIVisibilitySection from './AIVisibilitySection';
 
 function gradeColor(grade: string) {
   const g = grade.toUpperCase();
@@ -100,6 +101,14 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           </p>
         </div>
       </section>
+
+      {/* ── AI Visibility ────────────────────────────────────────── */}
+      <AIVisibilitySection
+        reportId={id}
+        businessName={data.business_name}
+        businessType={data.business_type}
+        cityState={data.city_state}
+      />
 
       {/* ── Score Cards ──────────────────────────────────────────── */}
       <section className="grid grid-cols-3 md:grid-cols-5" style={{ borderBottom: '2px solid #1a1a16' }}>

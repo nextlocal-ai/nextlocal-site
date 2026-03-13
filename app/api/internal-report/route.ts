@@ -245,6 +245,8 @@ Be specific and honest. Use the actual data. Don't invent information not suppor
       action_3: brief.gaps_to_fix[2] || '',
       created_at: new Date().toISOString(),
       source: 'internal',
+      business_type: brief.business_type,
+      city_state,
     };
     await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
 
