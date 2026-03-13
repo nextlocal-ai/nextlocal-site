@@ -91,7 +91,7 @@ Categories:
 - reviews_grade: Review count, rating, recency, and owner responses
 - citations_grade: NAP consistency across Yelp, BBB, Apple Maps, etc.
 - website_grade: Based ONLY on the actual signals detected above — schema, mobile, meta, structure
-- ai_grade: Entity presence on Wikipedia/Reddit/LinkedIn, AI recommendation likelihood
+- ai_grade: Discoverability — entity presence on Wikipedia/Reddit/LinkedIn, sameAs structured data, news/press mentions, overall digital footprint
 
 Return ONLY valid JSON:
 {

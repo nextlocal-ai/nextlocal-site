@@ -51,7 +51,7 @@ const faqSchema = {
       "name": "Which AI platforms does NextLocal AI optimize for?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "NextLocal AI optimizes local business visibility across ChatGPT, Google Gemini, Perplexity, and Bing Copilot — the four AI platforms with the largest user bases for local recommendations. Each platform uses a different mix of signals: Google AI Overviews weight traditional SEO signals heavily, while ChatGPT and Perplexity rely more on Reddit, Wikipedia, and structured entity data. Our AI Visibility Report grades your business across five categories — Google Business Profile, reviews, citations, website quality, and AI presence — and identifies the specific gaps preventing each platform from recommending you. Because only 11% of domains appear in both ChatGPT and Google AI Overviews for the same query, businesses cannot rely on a one-size-fits-all approach. NextLocal AI's methodology builds the distinct authority signals each platform requires, improving visibility across all four surfaces simultaneously."
+        "text": "NextLocal AI optimizes local business visibility across ChatGPT, Google Gemini, Perplexity, and Bing Copilot — the four AI platforms with the largest user bases for local recommendations. Each platform uses a different mix of signals: Google AI Overviews weight traditional SEO signals heavily, while ChatGPT and Perplexity rely more on Reddit, Wikipedia, and structured entity data. Our AI Visibility Report grades your business across five categories — Google Business Profile, reviews, citations, website quality, and discoverability — and identifies the specific gaps preventing each platform from recommending you. Because only 11% of domains appear in both ChatGPT and Google AI Overviews for the same query, businesses cannot rely on a one-size-fits-all approach. NextLocal AI's methodology builds the distinct authority signals each platform requires, improving visibility across all four surfaces simultaneously."
       }
     },
     {
@@ -59,7 +59,7 @@ const faqSchema = {
       "name": "How does the free AI Visibility Report work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The free AI Visibility Report analyzes your business across five categories and delivers a letter grade for each: Google Business Profile, online reviews, citation consistency, website quality, and AI presence. You submit your business name, type, city, and website through the form on our homepage. Our system cross-references your Google Business Profile data, review count and rating, citation signals, and website structure, then uses AI analysis to generate a personalized report with your grades, a written narrative summary, and three specific priority actions ranked by impact. The report is delivered to your email within minutes with no credit card required and no sales call unless you request one. Each report includes an overall letter grade plus individual grades for all five categories, giving you a clear picture of where you stand and exactly what to fix first."
+        "text": "The free AI Visibility Report analyzes your business across five categories and delivers a letter grade for each: Google Business Profile, online reviews, citation consistency, website quality, and discoverability. You submit your business name, type, city, and website through the form on our homepage. Our system cross-references your Google Business Profile data, review count and rating, citation signals, and website structure, then uses AI analysis to generate a personalized report with your grades, a written narrative summary, and three specific priority actions ranked by impact. The report is delivered to your email within minutes with no credit card required and no sales call unless you request one. Each report includes an overall letter grade plus individual grades for all five categories, giving you a clear picture of where you stand and exactly what to fix first."
       }
     },
     {
@@ -77,7 +77,7 @@ const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "AI Visibility Report",
-  "description": "A free graded report showing how a local business ranks in AI-generated answers across ChatGPT, Gemini, and Perplexity. Grades cover Google Business Profile, reviews, citations, website quality, and AI presence.",
+  "description": "A free graded report showing how a local business ranks in AI-generated answers across ChatGPT, Gemini, and Perplexity. Grades cover Google Business Profile, reviews, citations, website quality, and discoverability.",
   "provider": {
     "@type": "Organization",
     "name": "NextLocal AI"
@@ -197,7 +197,7 @@ export default function Home() {
             serves service-based local businesses including contractors, home services providers, legal practices,
             medical offices, and financial services firms — categories where AI recommendations carry high commercial
             intent. NextLocal AI&apos;s flagship product is a free AI Visibility Report that grades a business across
-            five categories: Google Business Profile, reviews, citations, website quality, and AI presence, with a
+            five categories: Google Business Profile, reviews, citations, website quality, and discoverability, with a
             personalized action plan to improve each score.
           </p>
         </div>
@@ -338,11 +338,11 @@ export default function Home() {
               },
               {
                 q: "Which AI platforms does NextLocal AI optimize for?",
-                a: "NextLocal AI optimizes local business visibility across ChatGPT, Google Gemini, Perplexity, and Bing Copilot — the four AI platforms with the largest user bases for local recommendations. Each platform uses a different mix of signals: Google AI Overviews weight traditional SEO signals heavily, while ChatGPT and Perplexity rely more on Reddit, Wikipedia, and structured entity data. Our AI Visibility Report grades your business across five categories — Google Business Profile, reviews, citations, website quality, and AI presence — and identifies the specific gaps preventing each platform from recommending you. Because only 11% of domains appear in both ChatGPT and Google AI Overviews for the same query, businesses cannot rely on a one-size-fits-all approach. NextLocal AI's methodology builds the distinct authority signals each platform requires, improving visibility across all four surfaces simultaneously."
+                a: "NextLocal AI optimizes local business visibility across ChatGPT, Google Gemini, Perplexity, and Bing Copilot — the four AI platforms with the largest user bases for local recommendations. Each platform uses a different mix of signals: Google AI Overviews weight traditional SEO signals heavily, while ChatGPT and Perplexity rely more on Reddit, Wikipedia, and structured entity data. Our AI Visibility Report grades your business across five categories — Google Business Profile, reviews, citations, website quality, and discoverability — and identifies the specific gaps preventing each platform from recommending you. Because only 11% of domains appear in both ChatGPT and Google AI Overviews for the same query, businesses cannot rely on a one-size-fits-all approach. NextLocal AI's methodology builds the distinct authority signals each platform requires, improving visibility across all four surfaces simultaneously."
               },
               {
                 q: "How does the free AI Visibility Report work?",
-                a: "The free AI Visibility Report analyzes your business across five categories and delivers a letter grade for each: Google Business Profile, online reviews, citation consistency, website quality, and AI presence. You submit your business name, type, city, and website through the form on our homepage. Our system cross-references your Google Business Profile data, review count and rating, citation signals, and website structure, then uses AI analysis to generate a personalized report with your grades, a written narrative summary, and three specific priority actions ranked by impact. The report is delivered to your email within minutes with no credit card required and no sales call unless you request one. Each report includes an overall letter grade plus individual grades for all five categories, giving you a clear picture of where you stand and exactly what to fix first."
+                a: "The free AI Visibility Report analyzes your business across five categories and delivers a letter grade for each: Google Business Profile, online reviews, citation consistency, website quality, and discoverability. You submit your business name, type, city, and website through the form on our homepage. Our system cross-references your Google Business Profile data, review count and rating, citation signals, and website structure, then uses AI analysis to generate a personalized report with your grades, a written narrative summary, and three specific priority actions ranked by impact. The report is delivered to your email within minutes with no credit card required and no sales call unless you request one. Each report includes an overall letter grade plus individual grades for all five categories, giving you a clear picture of where you stand and exactly what to fix first."
               },
               {
                 q: "What types of local businesses do you work with?",

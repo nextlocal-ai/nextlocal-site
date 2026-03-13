@@ -35,7 +35,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
     { label: 'Reviews', grade: data.reviews_grade },
     { label: 'Citations', grade: data.citations_grade },
     { label: 'Website', grade: data.website_grade },
-    { label: 'AI Presence', grade: data.ai_grade },
+    { label: 'Discoverability', grade: data.ai_grade },
   ];
 
   const actions = [data.action_1, data.action_2, data.action_3];
