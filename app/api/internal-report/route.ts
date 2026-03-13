@@ -27,10 +27,14 @@ async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string,
         }),
       });
       const data = await res.json();
+      console.log('OpenAI response:', JSON.stringify(data).slice(0, 500));
       // Responses API returns output array; find the message output
       const textBlock = data.output?.find((o: { type: string }) => o.type === 'message')
         ?.content?.find((c: { type: string }) => c.type === 'output_text');
-      return { response: textBlock?.text || '' };
+      if (!textBlock?.text) {
+        return { response: '', error: data.error?.message || JSON.stringify(data).slice(0, 200) };
+      }
+      return { response: textBlock.text };
     } else {
       const res = await fetch('https://api.perplexity.ai/chat/completions', {
         method: 'POST',
