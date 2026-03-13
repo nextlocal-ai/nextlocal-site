@@ -69,17 +69,7 @@ export default function LeadForm() {
 
       <div className="relative">
         <label className="block text-[11px] uppercase tracking-wider mb-2" style={labelStyle}>Business Type</label>
-        <select name="businessType" required className="w-full select-underline pr-6">
-          <option value="" disabled>Select your business type</option>
-          <option value="Contractor/Trades">Contractor/Trades</option>
-          <option value="Legal Services">Legal Services</option>
-          <option value="Medical/Dental">Medical/Dental</option>
-          <option value="Real Estate">Real Estate</option>
-          <option value="Financial Services">Financial Services</option>
-          <option value="Home Services">Home Services</option>
-          <option value="Other Local Business">Other Local Business</option>
-        </select>
-        <span className="absolute right-0 bottom-2 pointer-events-none text-xs" style={{ color: "rgb(107, 107, 94)" }}>▾</span>
+        <input name="businessType" required placeholder="e.g. plumber, divorce attorney, dentist" className="w-full input-underline" />
       </div>
 
       <div>
