@@ -29,7 +29,14 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const contentType = req.headers.get('content-type') || '';
+    let body: Record<string, string>;
+    if (contentType.includes('application/x-www-form-urlencoded')) {
+      const text = await req.text();
+      body = Object.fromEntries(new URLSearchParams(text));
+    } else {
+      body = await req.json();
+    }
     const { session_id, ...reportFields } = body;
 
     // Generate a short random ID
