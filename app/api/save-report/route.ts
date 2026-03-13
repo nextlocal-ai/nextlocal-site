@@ -40,7 +40,13 @@ export async function POST(req: NextRequest) {
       const text = await req.text();
       raw = Object.fromEntries(new URLSearchParams(text));
     } else {
-      raw = await req.json() as Record<string, unknown>;
+      // Try JSON first; fall back to URL-encoded if parsing fails (Make Content-Type mismatch)
+      const text = await req.text();
+      try {
+        raw = JSON.parse(text) as Record<string, unknown>;
+      } catch {
+        raw = Object.fromEntries(new URLSearchParams(text));
+      }
     }
 
     // Unwrap Make data structure nesting: { SaveReport: { ... } } → { ... }
