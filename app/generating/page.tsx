@@ -20,8 +20,8 @@ const STEPS = [
     start: 5000, end: 8000, pctStart: 35, pctEnd: 60,
   },
   {
-    label: 'Simulating AI queries',
-    detail: 'Asking ChatGPT, Perplexity, Google AI...',
+    label: 'Evaluating discoverability signals',
+    detail: 'Entity footprint, directory presence, authority signals...',
     start: 8000, end: 11000, pctStart: 60, pctEnd: 80,
   },
   {
@@ -35,7 +35,7 @@ const COUNTER_LABELS = [
   'Pulling profile\ndata',
   'Scanning\ncitations',
   'Analyzing\nwebsite signals',
-  'Simulating\nAI queries',
+  'Evaluating\ndiscoverability',
   'Building your\nreport',
 ];
 
