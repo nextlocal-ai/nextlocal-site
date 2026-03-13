@@ -20,7 +20,10 @@ const organizationSchema = {
     "email": "hello@nextlocal.ai",
     "contactType": "customer service"
   },
-  "sameAs": []
+  "sameAs": [
+    "https://www.linkedin.com/company/nextlocal-ai",
+    "https://nextlocal.ai"
+  ]
 };
 
 const faqSchema = {
@@ -179,6 +182,26 @@ export default function Home() {
 
       {/* ── Business Ticker ─────────────────────────────────── */}
       <BusinessTicker />
+
+      {/* ── About ───────────────────────────────────────────── */}
+      <section className="border-b-2 border-ink px-6 lg:px-16 py-14" style={{ backgroundColor: "rgb(237, 233, 222)" }}>
+        <div className="max-w-3xl">
+          <p className="font-[family-name:var(--font-ibm-plex-mono)] text-[10px] uppercase tracking-widest text-muted mb-4">About NextLocal AI</p>
+          <p className="text-base leading-relaxed font-light" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgb(107, 107, 94)" }}>
+            NextLocal AI is an AI visibility optimization service for local businesses, founded in Austin, Texas.
+            As AI assistants like ChatGPT, Perplexity, and Google Gemini increasingly become the first stop for
+            consumer recommendations, local businesses face a new challenge: appearing in AI-generated answers,
+            not just traditional search results. NextLocal AI addresses this gap by auditing how a business appears
+            across major AI platforms, identifying the structured data, citation, review, and entity authority signals
+            that determine which business gets recommended, and building those signals systematically. The company
+            serves service-based local businesses including contractors, home services providers, legal practices,
+            medical offices, and financial services firms — categories where AI recommendations carry high commercial
+            intent. NextLocal AI&apos;s flagship product is a free AI Visibility Report that grades a business across
+            five categories: Google Business Profile, reviews, citations, website quality, and AI presence, with a
+            personalized action plan to improve each score.
+          </p>
+        </div>
+      </section>
 
       {/* ── The Problem ─────────────────────────────────────── */}
       <section className="border-b-2 border-ink">
