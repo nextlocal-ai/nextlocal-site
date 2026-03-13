@@ -10,8 +10,9 @@ export function middleware(req: NextRequest) {
   // Allow the login page through
   if (pathname === '/internal/login') return NextResponse.next();
 
+  const expectedPassword = process.env.INTERNAL_PASSWORD;
   const auth = req.cookies.get(COOKIE)?.value;
-  if (auth === process.env.INTERNAL_PASSWORD) return NextResponse.next();
+  if (expectedPassword && auth === expectedPassword) return NextResponse.next();
 
   const loginUrl = req.nextUrl.clone();
   loginUrl.pathname = '/internal/login';
