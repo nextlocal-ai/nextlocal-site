@@ -122,6 +122,48 @@ async function fetchWebsiteSignals(url: string): Promise<string> {
   }
 }
 
+// ── Citations check ────────────────────────────────────────────
+
+async function checkCitations(businessName: string, cityState: string): Promise<{ grade: string; found: string[]; missing: string[]; summary: string }> {
+  const apiKey = process.env.SERPAPI_KEY;
+  if (!apiKey) return { grade: 'N/A', found: [], missing: [], summary: 'SERPAPI_KEY not configured' };
+
+  const directories = [
+    { label: 'Yelp', site: 'yelp.com' },
+    { label: 'BBB', site: 'bbb.org' },
+    { label: 'Apple Maps', site: 'maps.apple.com' },
+    { label: 'Bing Places', site: 'bing.com/maps' },
+    { label: 'Yellow Pages', site: 'yellowpages.com' },
+  ];
+
+  const results = await Promise.all(
+    directories.map(async ({ label, site }) => {
+      const query = `"${businessName}" "${cityState}" site:${site}`;
+      const url = `https://serpapi.com/search.json?engine=google&q=${encodeURIComponent(query)}&num=3&api_key=${apiKey}`;
+      try {
+        const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+        const data = await res.json();
+        const found = Array.isArray(data.organic_results) && data.organic_results.length > 0;
+        return { label, found };
+      } catch {
+        return { label, found: false };
+      }
+    })
+  );
+
+  const found = results.filter(r => r.found).map(r => r.label);
+  const missing = results.filter(r => !r.found).map(r => r.label);
+  const score = found.length / directories.length;
+  const grade = score >= 1.0 ? 'A' : score >= 0.8 ? 'B' : score >= 0.6 ? 'C' : score >= 0.4 ? 'D' : 'F';
+
+  return {
+    grade,
+    found,
+    missing,
+    summary: `Found on ${found.length}/${directories.length} directories. Present: ${found.join(', ') || 'none'}. Missing: ${missing.join(', ') || 'none'}.`,
+  };
+}
+
 // ── Main handler ───────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
@@ -147,9 +189,10 @@ export async function POST(req: NextRequest) {
 `.trim() : 'Business not found on Google — no GBP data available';
 
     const websiteUrl = place?.website;
-    const websiteSignals = websiteUrl
-      ? await fetchWebsiteSignals(websiteUrl)
-      : 'No website found';
+    const [websiteSignals, citations] = await Promise.all([
+      websiteUrl ? fetchWebsiteSignals(websiteUrl) : Promise.resolve('No website found'),
+      checkCitations(business_name, city_state),
+    ]);
 
     const prompt = `You are a sales intelligence analyst for NextLocal AI, an AI visibility optimization agency. Generate a pre-call brief for this prospect.
 
@@ -161,6 +204,10 @@ ${gbpSummary}
 
 WEBSITE SIGNALS:
 ${websiteSignals}
+
+CITATION DATA (real directory checks):
+${citations.summary}
+Use this for the citations grade — do not infer. Grade: ${citations.grade}
 
 Generate a detailed sales brief. Return ONLY valid JSON matching this exact structure:
 
@@ -265,7 +312,7 @@ Be specific and honest. Use the actual data. Don't invent information not suppor
       },
     };
 
-    return NextResponse.json({ brief, report_id: id, ai_visibility: aiVisibility });
+    return NextResponse.json({ brief, report_id: id, ai_visibility: aiVisibility, citations });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ error: message }, { status: 500 });
