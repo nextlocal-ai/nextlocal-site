@@ -189,6 +189,23 @@ Be specific and honest. Use the actual data. Don't invent information not suppor
     if (!jsonMatch) throw new Error('No JSON in Claude response');
 
     const brief = JSON.parse(jsonMatch[0]);
+    if (
+      !brief ||
+      typeof brief !== 'object' ||
+      typeof brief.business_name !== 'string' ||
+      typeof brief.overall_grade !== 'string' ||
+      !brief.grades ||
+      typeof brief.grades !== 'object' ||
+      !brief.grades.gbp?.grade ||
+      !brief.grades.reviews?.grade ||
+      !brief.grades.citations?.grade ||
+      !brief.grades.website?.grade ||
+      !brief.grades.discoverability?.grade ||
+      typeof brief.key_talking_points !== 'string' ||
+      !Array.isArray(brief.gaps_to_fix)
+    ) {
+      throw new Error('Claude response missing required fields');
+    }
 
     // Run AI discoverability queries in parallel now that we have business_type
     const [chatgptResult, perplexityResult] = await Promise.all([

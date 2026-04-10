@@ -1,11 +1,11 @@
 export interface ReportData {
   business_name: string;
-  overall_grade: string;
-  gbp_grade: string;
-  reviews_grade: string;
-  citations_grade: string;
-  website_grade: string;
-  ai_grade: string;
+  overall_grade?: string;
+  gbp_grade?: string;
+  reviews_grade?: string;
+  citations_grade?: string;
+  website_grade?: string;
+  ai_grade?: string;
   narrative: string;
   action_1: string;
   action_2: string;

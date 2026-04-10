@@ -125,18 +125,25 @@ export default function AIVisibilitySection({ reportId, businessName, businessTy
   const [loading, setLoading] = useState(true);
   const [chatgpt, setChatgpt] = useState<AIQueryResult | undefined>();
   const [perplexity, setPerplexity] = useState<AIQueryResult | undefined>();
+  const [fetchError, setFetchError] = useState(false);
   const type = businessType || businessName;
   const city = cityState || '';
 
   useEffect(() => {
     fetch(`/api/ai-visibility?id=${reportId}`)
-      .then(r => r.json())
+      .then(async r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then(data => {
         setChatgpt(data.chatgpt);
         setPerplexity(data.perplexity);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setFetchError(true);
+        setLoading(false);
+      });
   }, [reportId]);
 
   return (
@@ -168,11 +175,19 @@ export default function AIVisibilitySection({ reportId, businessName, businessTy
               <TerminalBox businessType={type} cityState={city} />
             </div>
           )}
-          <ResultPanel label="ChatGPT" result={chatgpt} loading={loading} />
-          <ResultPanel label="Perplexity" result={perplexity} loading={loading} />
-          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e', marginTop: '4px' }}>
-            Click a result to see the full AI response. ↑
-          </p>
+          {fetchError ? (
+            <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', color: '#c8460a', border: '1px solid #c8460a', padding: '14px 18px' }}>
+              Couldn&apos;t reach the AI visibility check. Refresh to try again — if this keeps happening, email hello@nextlocal.ai.
+            </p>
+          ) : (
+            <>
+              <ResultPanel label="ChatGPT" result={chatgpt} loading={loading} />
+              <ResultPanel label="Perplexity" result={perplexity} loading={loading} />
+              <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e', marginTop: '4px' }}>
+                Click a result to see the full AI response. ↑
+              </p>
+            </>
+          )}
         </div>
       </div>
     </section>

@@ -13,11 +13,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Missing required fields: ${missing.join(', ')}` }, { status: 400 });
     }
 
-    await fetch(WEBHOOK_URL, {
+    const makeRes = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
+
+    if (!makeRes.ok) {
+      const detail = await makeRes.text().catch(() => '');
+      return NextResponse.json(
+        { error: `Webhook returned ${makeRes.status}`, detail: detail.slice(0, 500) },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

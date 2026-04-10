@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const STEPS = [
@@ -58,7 +58,7 @@ function GeneratingContent() {
   const rafRef = useRef<number>(0);
   const currentStepRef = useRef(-1);
 
-  function doRedirect(url: string) {
+  const doRedirect = useCallback((url: string) => {
     if (redirectedRef.current) return;
     redirectedRef.current = true;
     cancelAnimationFrame(rafRef.current);
@@ -69,7 +69,7 @@ function GeneratingContent() {
       setShowOverlay(true);
       setTimeout(() => { window.location.href = url; }, 800);
     }, 400);
-  }
+  }, []);
 
   useEffect(() => {
     startTimeRef.current = Date.now();
@@ -121,8 +121,7 @@ function GeneratingContent() {
     if (!reportUrl) return;
     const t = setTimeout(() => doRedirect(reportUrl), 14000);
     return () => clearTimeout(t);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reportUrl]);
+  }, [reportUrl, doRedirect]);
 
   // Poll /api/submission-status if submission_id given
   useEffect(() => {
@@ -150,8 +149,7 @@ function GeneratingContent() {
 
     timeoutId = setTimeout(poll, 3000);
     return () => clearTimeout(timeoutId);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [submissionId, reportUrl]);
+  }, [submissionId, reportUrl, doRedirect]);
 
   const labelLines = counterLabel.split('\n');
 

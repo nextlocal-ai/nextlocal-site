@@ -102,11 +102,15 @@ export default function LeadForm() {
       gtagEvent('form_submit', { business_type: payload['businessType'], city: payload['city'], state: payload['state'] });
 
       // Proxy through our own API to avoid CORS issues with Make
-      await fetch("/api/submit", {
+      const res = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload, session_id: submissionId }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Submit failed (${res.status})`);
+      }
 
       // Redirect immediately — polling handles the rest
       const params = new URLSearchParams({ business_name: businessName, submission_id: submissionId });
