@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { generateBrief } from './actions';
 
 function renderMarkdown(text: string): string {
   const cutoffs = ['When selecting', 'Before making', 'It is advisable', 'Consider obtaining', 'To find the best', 'Other mentions'];
@@ -138,13 +139,9 @@ export default function InternalPage() {
     setBrief(null);
 
     try {
-      const res = await fetch('/api/internal-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ business_name: businessName, city_state: cityState }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      const result = await generateBrief(businessName, cityState);
+      if (result.error) throw new Error(result.error);
+      const data = result.data;
       setBrief(data.brief);
       setAiVisibility(data.ai_visibility || null);
       setReportId(data.report_id || '');

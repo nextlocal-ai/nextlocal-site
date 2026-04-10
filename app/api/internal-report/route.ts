@@ -168,6 +168,14 @@ async function checkCitations(businessName: string, cityState: string): Promise<
 
 export async function POST(req: NextRequest) {
   try {
+    const expectedKey = process.env.INTERNAL_API_KEY;
+    const expectedPassword = process.env.INTERNAL_PASSWORD;
+    const headerValid = !!expectedKey && req.headers.get('x-internal-key') === expectedKey;
+    const cookieValid = !!expectedPassword && req.cookies.get('nl_internal_auth')?.value === expectedPassword;
+    if (!headerValid && !cookieValid) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { business_name, city_state } = await req.json();
     if (!business_name || !city_state) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
