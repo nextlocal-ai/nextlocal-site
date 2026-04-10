@@ -1,23 +1,7 @@
 import { kv } from '@vercel/kv';
 import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
-
-export interface ReportData {
-  business_name: string;
-  overall_grade: string;
-  gbp_grade: string;
-  reviews_grade: string;
-  citations_grade: string;
-  website_grade: string;
-  ai_grade: string;
-  narrative: string;
-  action_1: string;
-  action_2: string;
-  action_3: string;
-  created_at: string;
-  business_type?: string;
-  city_state?: string;
-}
+import type { ReportData } from '@/lib/types';
 
 // camelCase / "Title Case" / "snake_case" → snake_case
 function normalizeKey(k: string): string {

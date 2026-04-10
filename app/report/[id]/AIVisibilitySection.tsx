@@ -1,13 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-interface AIResult {
-  query: string;
-  response: string;
-  mentioned: boolean;
-  error?: string;
-}
+import { renderMarkdown } from '@/lib/render-markdown';
+import type { AIQueryResult } from '@/lib/types';
 
 interface Props {
   reportId: string;
@@ -22,25 +17,6 @@ const SAMPLE_QUERIES = [
   (type: string, city: string) => `Top-rated ${type} in ${city}`,
   (type: string, city: string) => `Recommend a ${type} in ${city}`,
 ];
-
-function renderMarkdown(text: string): string {
-  const cutoffs = ['When selecting', 'Before making', 'It is advisable', 'Consider obtaining', 'To find the best'];
-  let trimmed = text;
-  for (const cutoff of cutoffs) {
-    const idx = trimmed.lastIndexOf('\n' + cutoff);
-    if (idx > trimmed.length / 2) { trimmed = trimmed.slice(0, idx); break; }
-  }
-  return trimmed
-    .replace(/^### (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6b6b5e">$1</strong>')
-    .replace(/^## (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:13px;color:#1a1a16">$1</strong>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/_([^_\n]+)_/g, '<em style="color:#6b6b5e">$1</em>')
-    .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')
-    .replace(/^- /gm, '• ')
-    .replace(/\n\n/g, '<br/><br/>')
-    .replace(/\n/g, '<br/>')
-    .replace(/\[([^\]]+)\]\(([^)"]+)[^)]*\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#c8460a;text-decoration:underline">$1</a>');
-}
 
 function MentionBadge({ mentioned, loading }: { mentioned?: boolean; loading: boolean }) {
   if (loading) return (
@@ -102,7 +78,7 @@ function TerminalBox({ businessType, cityState }: { businessType: string; citySt
   );
 }
 
-function ResultPanel({ label, result, loading }: { label: string; result?: AIResult; loading: boolean }) {
+function ResultPanel({ label, result, loading }: { label: string; result?: AIQueryResult; loading: boolean }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -147,8 +123,8 @@ function ResultPanel({ label, result, loading }: { label: string; result?: AIRes
 
 export default function AIVisibilitySection({ reportId, businessName, businessType, cityState }: Props) {
   const [loading, setLoading] = useState(true);
-  const [chatgpt, setChatgpt] = useState<AIResult | undefined>();
-  const [perplexity, setPerplexity] = useState<AIResult | undefined>();
+  const [chatgpt, setChatgpt] = useState<AIQueryResult | undefined>();
+  const [perplexity, setPerplexity] = useState<AIQueryResult | undefined>();
   const type = businessType || businessName;
   const city = cityState || '';
 

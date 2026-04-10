@@ -1,4 +1,5 @@
 import LeadForm from "@/components/LeadForm";
+import Logo from "@/components/Logo";
 import { TopTicker, BusinessTicker } from "@/components/Ticker";
 import TrackableLink from "@/components/TrackableLink";
 
@@ -386,7 +387,7 @@ export default function Home() {
       {/* ── Footer ──────────────────────────────────────────── */}
       <footer className="bg-ink px-10 py-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <LogoLight />
+          <Logo variant="light" />
           <p className="font-[family-name:var(--font-ibm-plex-mono)] text-[10px] uppercase tracking-widest text-muted">
             © {new Date().getFullYear()} Next Local AI. Austin, TX. All Rights
             Reserved.
@@ -399,22 +400,6 @@ export default function Home() {
 }
 
 /* ── Sub-components ─────────────────────────────────────────── */
-
-function Logo() {
-  return (
-    <span className="font-[family-name:var(--font-playfair)] font-black text-xl tracking-tight text-ink">
-      Next<span className="text-orange">Local</span> AI
-    </span>
-  );
-}
-
-function LogoLight() {
-  return (
-    <span className="font-[family-name:var(--font-playfair)] font-black text-xl tracking-tight text-cream">
-      Next<span className="text-orange">Local</span> AI
-    </span>
-  );
-}
 
 function HeroStat({
   number,

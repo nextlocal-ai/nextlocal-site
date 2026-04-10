@@ -1,26 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { generateBrief } from './actions';
-
-function renderMarkdown(text: string): string {
-  const cutoffs = ['When selecting', 'Before making', 'It is advisable', 'Consider obtaining', 'To find the best', 'Other mentions'];
-  let trimmed = text;
-  for (const cutoff of cutoffs) {
-    const idx = trimmed.lastIndexOf('\n' + cutoff);
-    if (idx > trimmed.length / 2) { trimmed = trimmed.slice(0, idx); break; }
-  }
-
-  return trimmed
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#0ea5e9;text-decoration:underline">$1</a>')
-    .replace(/^### (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#ede9de">$1</strong>')
-    .replace(/^## (.+)$/gm, '<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:13px;color:#ede9de">$1</strong>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/_([^_]+)_/g, '<em style="color:#6b6b5e">$1</em>')
-    .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')
-    .replace(/^- /gm, '• ')
-    .replace(/\n\n/g, '<br/><br/>')
-    .replace(/\n/g, '<br/>');
-}
+import { renderMarkdown } from '@/lib/render-markdown';
 
 // ── Types ───────────────────────────────────────────────────────
 
@@ -417,7 +398,7 @@ export default function InternalPage() {
                           ) : (
                             <div
                               style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.75 }}
-                              dangerouslySetInnerHTML={{ __html: renderMarkdown(result.response) }}
+                              dangerouslySetInnerHTML={{ __html: renderMarkdown(result.response, { headingColor: '#ede9de', linkColor: '#0ea5e9', extraCutoffs: ['Other mentions'] }) }}
                             />
                           )}
                         </div>

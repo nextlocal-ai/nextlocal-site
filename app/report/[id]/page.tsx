@@ -1,8 +1,10 @@
 import { kv } from '@vercel/kv';
 import { notFound } from 'next/navigation';
-import type { ReportData } from '@/app/api/save-report/route';
+import Link from 'next/link';
+import type { ReportData } from '@/lib/types';
 import AIVisibilitySection from './AIVisibilitySection';
 import TrackableLink from '@/components/TrackableLink';
+import Logo from '@/components/Logo';
 import ReportViewTracker from './ReportViewTracker';
 
 function gradeColor(grade: string | undefined) {
@@ -52,14 +54,14 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       {/* ── Nav ──────────────────────────────────────────────────── */}
       <nav style={{ backgroundColor: '#f5f2eb', borderBottom: '2px solid #1a1a16' }}
         className="px-6 md:px-10 py-4 flex items-center justify-between">
-        <Logo />
-        <a href="/" style={{ textDecoration: 'none' }}>
+        <Logo href="/" />
+        <Link href="/" style={{ textDecoration: 'none' }}>
           <span style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '11px', letterSpacing: '0.14em',
             color: '#6b6b5e', textTransform: 'uppercase',
           }}>nextlocal.ai</span>
-        </a>
+        </Link>
       </nav>
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
@@ -248,7 +250,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       {/* ── Footer ───────────────────────────────────────────────── */}
       <footer className="px-6 md:px-12 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3"
         style={{ backgroundColor: '#1a1a16' }}>
-        <LogoLight />
+        <Logo variant="light" href="/" />
         <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e' }}>
           This report expires on {fmtDate(expiresAt)}
         </span>
@@ -257,25 +259,5 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         </span>
       </footer>
     </main>
-  );
-}
-
-function Logo() {
-  return (
-    <a href="/" style={{ textDecoration: 'none' }}>
-      <span style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '20px', color: '#1a1a16' }}>
-        Next<span style={{ color: '#c8460a' }}>Local</span> AI
-      </span>
-    </a>
-  );
-}
-
-function LogoLight() {
-  return (
-    <a href="/" style={{ textDecoration: 'none' }}>
-      <span style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '20px', color: '#f5f2eb' }}>
-        Next<span style={{ color: '#c8460a' }}>Local</span> AI
-      </span>
-    </a>
   );
 }

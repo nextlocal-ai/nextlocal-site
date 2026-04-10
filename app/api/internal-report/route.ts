@@ -2,58 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { kv } from '@vercel/kv';
 import { randomUUID } from 'crypto';
-import type { ReportData } from '@/app/api/save-report/route';
+import type { ReportData } from '@/lib/types';
 import { verifySession, SESSION_COOKIE } from '@/lib/auth';
+import { queryAI, buildLocalQuery } from '@/lib/ai-queries';
+import { checkCitations } from '@/lib/citations';
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const PLACES_KEY = process.env.GOOGLE_PLACES_API_KEY;
-
-// ── AI Discoverability Queries ──────────────────────────────────
-
-async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string, cityState: string): Promise<{ response: string; error?: string }> {
-  const query = `Who are the best ${businessType}s in ${cityState}? Give me your top recommendations.`;
-
-  try {
-    if (platform === 'chatgpt') {
-      const res = await fetch('https://api.openai.com/v1/responses', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o',
-          tools: [{ type: 'web_search_preview' }],
-          input: query,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        return { response: '', error: data.error?.message || `HTTP ${res.status}` };
-      }
-      const textBlock = data.output?.find((o: { type: string }) => o.type === 'message')
-        ?.content?.find((c: { type: string }) => c.type === 'output_text');
-      return { response: textBlock?.text || '' };
-    } else {
-      const res = await fetch('https://api.perplexity.ai/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'sonar',
-          messages: [{ role: 'user', content: query }],
-          max_tokens: 512,
-        }),
-      });
-      const data = await res.json();
-      return { response: data.choices?.[0]?.message?.content || '' };
-    }
-  } catch (err) {
-    return { response: '', error: err instanceof Error ? err.message : 'Request failed' };
-  }
-}
 
 // ── Google Places ──────────────────────────────────────────────
 
@@ -120,48 +75,6 @@ async function fetchWebsiteSignals(url: string): Promise<string> {
   } catch {
     return 'Could not fetch website (timeout or access blocked)';
   }
-}
-
-// ── Citations check ────────────────────────────────────────────
-
-async function checkCitations(businessName: string, cityState: string): Promise<{ grade: string; found: string[]; missing: string[]; summary: string }> {
-  const apiKey = process.env.SERPAPI_KEY;
-  if (!apiKey) return { grade: 'N/A', found: [], missing: [], summary: 'SERPAPI_KEY not configured' };
-
-  const directories = [
-    { label: 'Yelp', site: 'yelp.com' },
-    { label: 'BBB', site: 'bbb.org' },
-    { label: 'Apple Maps', site: 'maps.apple.com' },
-    { label: 'Bing Places', site: 'bing.com/maps' },
-    { label: 'Yellow Pages', site: 'yellowpages.com' },
-  ];
-
-  const results = await Promise.all(
-    directories.map(async ({ label, site }) => {
-      const query = `"${businessName}" "${cityState}" site:${site}`;
-      const url = `https://serpapi.com/search.json?engine=google&q=${encodeURIComponent(query)}&num=3&api_key=${apiKey}`;
-      try {
-        const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-        const data = await res.json();
-        const found = Array.isArray(data.organic_results) && data.organic_results.length > 0;
-        return { label, found };
-      } catch {
-        return { label, found: false };
-      }
-    })
-  );
-
-  const found = results.filter(r => r.found).map(r => r.label);
-  const missing = results.filter(r => !r.found).map(r => r.label);
-  const score = found.length / directories.length;
-  const grade = score >= 1.0 ? 'A' : score >= 0.8 ? 'B' : score >= 0.6 ? 'C' : score >= 0.4 ? 'D' : 'F';
-
-  return {
-    grade,
-    found,
-    missing,
-    summary: `Found on ${found.length}/${directories.length} directories. Present: ${found.join(', ') || 'none'}. Missing: ${missing.join(', ') || 'none'}.`,
-  };
 }
 
 // ── Main handler ───────────────────────────────────────────────
@@ -304,17 +217,20 @@ Be specific and honest. Use the actual data. Don't invent information not suppor
     };
     await kv.set(`report:${id}`, report, { ex: 60 * 60 * 24 * 30 });
 
+    const aiQueryType = brief.business_type || business_name;
+    const aiQueryText = buildLocalQuery(aiQueryType, city_state);
+    const nameLower = business_name.toLowerCase();
     const aiVisibility = {
       chatgpt: {
-        query: `Who are the best ${brief.business_type}s in ${city_state}?`,
+        query: aiQueryText,
         response: chatgptResult.response,
-        mentioned: chatgptResult.response.toLowerCase().includes(business_name.toLowerCase()),
+        mentioned: chatgptResult.response.toLowerCase().includes(nameLower),
         error: chatgptResult.error,
       },
       perplexity: {
-        query: `Who are the best ${brief.business_type}s in ${city_state}?`,
+        query: aiQueryText,
         response: perplexityResult.response,
-        mentioned: perplexityResult.response.toLowerCase().includes(business_name.toLowerCase()),
+        mentioned: perplexityResult.response.toLowerCase().includes(nameLower),
         error: perplexityResult.error,
       },
     };
