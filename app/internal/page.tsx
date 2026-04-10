@@ -55,7 +55,7 @@ function gradeColor(grade: string) {
   if (g.startsWith('B')) return '#84cc16';
   if (g.startsWith('C')) return '#eab308';
   if (g.startsWith('D')) return '#f97316';
-  return '#c8460a';
+  return 'var(--color-orange)';
 }
 
 // ── Grade Card ──────────────────────────────────────────────────
@@ -76,7 +76,7 @@ function GradeCard({ label, block }: { label: string; block: GradeBlock }) {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b5e' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-muted)' }}>
           {label}
         </span>
         <span style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '28px', color, lineHeight: 1 }}>
@@ -86,14 +86,14 @@ function GradeCard({ label, block }: { label: string; block: GradeBlock }) {
       {open && block.specifics?.length > 0 && (
         <ul style={{ marginTop: '12px', paddingLeft: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           {block.specifics.map((s, i) => (
-            <li key={i} style={{ fontFamily: 'monospace', fontSize: '11px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: `2px solid ${color}` }}>
+            <li key={i} style={{ fontFamily: 'monospace', fontSize: '11px', color: 'var(--color-cream2)', lineHeight: 1.5, paddingLeft: '12px', borderLeft: `2px solid ${color}` }}>
               {s}
             </li>
           ))}
         </ul>
       )}
       {!open && (
-        <p style={{ marginTop: '6px', fontFamily: 'monospace', fontSize: '10px', color: '#6b6b5e', letterSpacing: '0.08em' }}>
+        <p style={{ marginTop: '6px', fontFamily: 'monospace', fontSize: '10px', color: 'var(--color-muted)', letterSpacing: '0.08em' }}>
           Click to expand ↓
         </p>
       )}
@@ -179,16 +179,16 @@ export default function InternalPage() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#1a1a16', padding: '48px 24px' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: 'var(--color-ink)', padding: '48px 24px' }}>
       <div style={{ maxWidth: '860px', margin: '0 auto' }}>
 
         {/* Header */}
         <div style={{ marginBottom: '40px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8460a', marginBottom: '6px' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-orange)', marginBottom: '6px' }}>
               NextLocal AI — Internal
             </p>
-            <h1 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '28px', color: '#ede9de', lineHeight: 1.1 }}>
+            <h1 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '28px', color: 'var(--color-cream2)', lineHeight: 1.1 }}>
               Brief Generator
             </h1>
           </div>
@@ -196,7 +196,7 @@ export default function InternalPage() {
             <div style={{ display: 'flex', gap: '8px' }}>
               <button
                 onClick={copyBrief}
-                style={{ padding: '10px 16px', backgroundColor: copied ? '#22c55e' : '#c8460a', color: 'white', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}
+                style={{ padding: '10px 16px', backgroundColor: copied ? '#22c55e' : 'var(--color-orange)', color: 'white', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: 'pointer' }}
               >
                 {copied ? 'Copied!' : 'Copy Brief'}
               </button>
@@ -205,14 +205,14 @@ export default function InternalPage() {
                   href={`/report/${reportId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ padding: '10px 16px', backgroundColor: 'transparent', color: '#ede9de', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid rgba(237,233,222,0.3)', textDecoration: 'none' }}
+                  style={{ padding: '10px 16px', backgroundColor: 'transparent', color: 'var(--color-cream2)', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid rgba(237,233,222,0.3)', textDecoration: 'none' }}
                 >
                   View Report →
                 </a>
               )}
               <button
                 onClick={reset}
-                style={{ padding: '10px 16px', backgroundColor: 'transparent', color: '#6b6b5e', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid rgba(237,233,222,0.15)', cursor: 'pointer' }}
+                style={{ padding: '10px 16px', backgroundColor: 'transparent', color: 'var(--color-muted)', fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase', border: '1px solid rgba(237,233,222,0.15)', cursor: 'pointer' }}
               >
                 New Search
               </button>
@@ -229,7 +229,7 @@ export default function InternalPage() {
             placeholder="Business name"
             required
             disabled={pageState === 'loading'}
-            style={{ flex: '1 1 220px', padding: '12px 16px', backgroundColor: '#f5f2eb', border: 'none', fontFamily: 'monospace', fontSize: '14px', color: '#1a1a16', minWidth: '0' }}
+            style={{ flex: '1 1 220px', padding: '12px 16px', backgroundColor: 'var(--color-cream)', border: 'none', fontFamily: 'monospace', fontSize: '14px', color: 'var(--color-ink)', minWidth: '0' }}
           />
           <input
             type="text"
@@ -238,12 +238,12 @@ export default function InternalPage() {
             placeholder="City, State (e.g. Austin, TX)"
             required
             disabled={pageState === 'loading'}
-            style={{ flex: '1 1 200px', padding: '12px 16px', backgroundColor: '#f5f2eb', border: 'none', fontFamily: 'monospace', fontSize: '14px', color: '#1a1a16', minWidth: '0' }}
+            style={{ flex: '1 1 200px', padding: '12px 16px', backgroundColor: 'var(--color-cream)', border: 'none', fontFamily: 'monospace', fontSize: '14px', color: 'var(--color-ink)', minWidth: '0' }}
           />
           <button
             type="submit"
             disabled={pageState === 'loading'}
-            style={{ padding: '12px 24px', backgroundColor: pageState === 'loading' ? '#6b6b5e' : '#c8460a', color: 'white', fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: pageState === 'loading' ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' }}
+            style={{ padding: '12px 24px', backgroundColor: pageState === 'loading' ? 'var(--color-muted)' : 'var(--color-orange)', color: 'white', fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: pageState === 'loading' ? 'not-allowed' : 'pointer', whiteSpace: 'nowrap' }}
           >
             {pageState === 'loading' ? 'Generating...' : 'Run Brief →'}
           </button>
@@ -252,7 +252,7 @@ export default function InternalPage() {
         {/* Loading */}
         {pageState === 'loading' && (
           <div style={{ padding: '40px', borderTop: '1px solid rgba(237,233,222,0.1)', textAlign: 'center' }}>
-            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b5e', animation: 'nlPulse 1.5s ease-in-out infinite' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-muted)', animation: 'nlPulse 1.5s ease-in-out infinite' }}>
               Pulling GBP data · analyzing website · building brief...
             </p>
           </div>
@@ -260,8 +260,8 @@ export default function InternalPage() {
 
         {/* Error */}
         {pageState === 'error' && (
-          <div style={{ padding: '20px', border: '1px solid #c8460a', backgroundColor: 'rgba(200,70,10,0.1)' }}>
-            <p style={{ fontFamily: 'monospace', fontSize: '12px', color: '#c8460a' }}>{error}</p>
+          <div style={{ padding: '20px', border: '1px solid var(--color-orange)', backgroundColor: 'rgba(200,70,10,0.1)' }}>
+            <p style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-orange)' }}>{error}</p>
           </div>
         )}
 
@@ -271,10 +271,10 @@ export default function InternalPage() {
 
             {/* Business header */}
             <div style={{ borderBottom: '1px solid rgba(237,233,222,0.15)', paddingBottom: '24px' }}>
-              <h2 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '32px', color: '#ede9de', marginBottom: '4px' }}>
+              <h2 style={{ fontFamily: 'Georgia, serif', fontWeight: 900, fontSize: '32px', color: 'var(--color-cream2)', marginBottom: '4px' }}>
                 {brief.business_name}
               </h2>
-              <p style={{ fontFamily: 'monospace', fontSize: '11px', color: '#6b6b5e', letterSpacing: '0.1em' }}>
+              <p style={{ fontFamily: 'monospace', fontSize: '11px', color: 'var(--color-muted)', letterSpacing: '0.1em' }}>
                 {brief.business_type} · {brief.location}
               </p>
             </div>
@@ -295,8 +295,8 @@ export default function InternalPage() {
             {/* Suggested opening */}
             <div>
               <SectionLabel>Suggested Opening Line</SectionLabel>
-              <blockquote style={{ marginTop: '12px', borderLeft: '3px solid #c8460a', paddingLeft: '20px' }}>
-                <p style={{ fontFamily: 'Georgia, serif', fontSize: '17px', lineHeight: 1.65, color: '#ede9de', fontStyle: 'italic', fontWeight: 300 }}>
+              <blockquote style={{ marginTop: '12px', borderLeft: '3px solid var(--color-orange)', paddingLeft: '20px' }}>
+                <p style={{ fontFamily: 'Georgia, serif', fontSize: '17px', lineHeight: 1.65, color: 'var(--color-cream2)', fontStyle: 'italic', fontWeight: 300 }}>
                   &ldquo;{brief.suggested_opening}&rdquo;
                 </p>
               </blockquote>
@@ -308,7 +308,7 @@ export default function InternalPage() {
                 <SectionLabel>What&apos;s Working</SectionLabel>
                 <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
                   {brief.whats_working.map((item, i) => (
-                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #22c55e' }}>
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-cream2)', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #22c55e' }}>
                       {item}
                     </li>
                   ))}
@@ -318,7 +318,7 @@ export default function InternalPage() {
                 <SectionLabel>Gaps to Fix</SectionLabel>
                 <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
                   {brief.gaps_to_fix.map((item, i) => (
-                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #c8460a' }}>
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-cream2)', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid var(--color-orange)' }}>
                       {item}
                     </li>
                   ))}
@@ -332,8 +332,8 @@ export default function InternalPage() {
                 <SectionLabel>Weaknesses to Lead With</SectionLabel>
                 <ol style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0, counterReset: 'item' }}>
                   {brief.weaknesses_to_lead.map((item, i) => (
-                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, display: 'flex', gap: '10px' }}>
-                      <span style={{ color: '#c8460a', flexShrink: 0 }}>0{i + 1}</span>
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-cream2)', lineHeight: 1.5, display: 'flex', gap: '10px' }}>
+                      <span style={{ color: 'var(--color-orange)', flexShrink: 0 }}>0{i + 1}</span>
                       {item}
                     </li>
                   ))}
@@ -343,7 +343,7 @@ export default function InternalPage() {
                 <SectionLabel>Strengths to Acknowledge</SectionLabel>
                 <ul style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px', listStyle: 'none', padding: 0 }}>
                   {brief.strengths_to_acknowledge.map((item, i) => (
-                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid #6b6b5e' }}>
+                    <li key={i} style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-cream2)', lineHeight: 1.5, paddingLeft: '12px', borderLeft: '2px solid var(--color-muted)' }}>
                       {item}
                     </li>
                   ))}
@@ -354,7 +354,7 @@ export default function InternalPage() {
             {/* Key talking points */}
             <div>
               <SectionLabel>Key Talking Points</SectionLabel>
-              <p style={{ marginTop: '12px', fontFamily: 'monospace', fontSize: '13px', color: '#ede9de', lineHeight: 1.75, backgroundColor: 'rgba(237,233,222,0.05)', padding: '20px' }}>
+              <p style={{ marginTop: '12px', fontFamily: 'monospace', fontSize: '13px', color: 'var(--color-cream2)', lineHeight: 1.75, backgroundColor: 'rgba(237,233,222,0.05)', padding: '20px' }}>
                 {brief.key_talking_points}
               </p>
             </div>
@@ -384,21 +384,21 @@ export default function InternalPage() {
                     return (
                       <div key={platform} style={{ border: `1px solid ${result.mentioned ? 'rgba(34,197,94,0.4)' : 'rgba(237,233,222,0.15)'}`, borderRadius: '4px', overflow: 'hidden' }}>
                         <div style={{ padding: '10px 14px', backgroundColor: result.mentioned ? 'rgba(34,197,94,0.1)' : 'rgba(237,233,222,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <span style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#ede9de' }}>{label}</span>
+                          <span style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-cream2)' }}>{label}</span>
                           <span style={{ fontFamily: 'monospace', fontSize: '11px', color: result.mentioned ? '#22c55e' : '#f87171', fontWeight: 600 }}>
                             {result.error ? 'Error' : result.mentioned ? '✓ Mentioned' : '✗ Not mentioned'}
                           </span>
                         </div>
                         <div style={{ padding: '12px 14px' }}>
-                          <p style={{ fontFamily: 'monospace', fontSize: '10px', color: '#6b6b5e', marginBottom: '8px', fontStyle: 'italic' }}>
+                          <p style={{ fontFamily: 'monospace', fontSize: '10px', color: 'var(--color-muted)', marginBottom: '8px', fontStyle: 'italic' }}>
                             Query: &ldquo;{result.query}&rdquo;
                           </p>
                           {result.error ? (
                             <p style={{ fontFamily: 'monospace', fontSize: '11px', color: '#f87171' }}>{result.error}</p>
                           ) : (
                             <div
-                              style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de', lineHeight: 1.75 }}
-                              dangerouslySetInnerHTML={{ __html: renderMarkdown(result.response, { headingColor: '#ede9de', linkColor: '#0ea5e9', extraCutoffs: ['Other mentions'] }) }}
+                              style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-cream2)', lineHeight: 1.75 }}
+                              dangerouslySetInnerHTML={{ __html: renderMarkdown(result.response, { headingColor: 'var(--color-cream2)', linkColor: '#0ea5e9', extraCutoffs: ['Other mentions'] }) }}
                             />
                           )}
                         </div>
@@ -419,8 +419,8 @@ export default function InternalPage() {
                   { label: 'Address', value: brief.contact.address },
                 ].map(({ label, value }) => (
                   <div key={label}>
-                    <p style={{ fontFamily: 'monospace', fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b5e', marginBottom: '4px' }}>{label}</p>
-                    <p style={{ fontFamily: 'monospace', fontSize: '12px', color: '#ede9de' }}>{value || 'Not found'}</p>
+                    <p style={{ fontFamily: 'monospace', fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--color-muted)', marginBottom: '4px' }}>{label}</p>
+                    <p style={{ fontFamily: 'monospace', fontSize: '12px', color: 'var(--color-cream2)' }}>{value || 'Not found'}</p>
                   </div>
                 ))}
               </div>
@@ -442,7 +442,7 @@ export default function InternalPage() {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b5e' }}>
+    <p style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-muted)' }}>
       {children}
     </p>
   );

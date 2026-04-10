@@ -18,8 +18,8 @@ interface RenderOptions {
 
 export function renderMarkdown(text: string, options: RenderOptions = {}): string {
   const {
-    headingColor = '#1a1a16',
-    linkColor = '#c8460a',
+    headingColor = 'var(--color-ink)',
+    linkColor = 'var(--color-orange)',
     extraCutoffs = [],
   } = options;
 
@@ -34,11 +34,11 @@ export function renderMarkdown(text: string, options: RenderOptions = {}): strin
   }
 
   return trimmed
-    .replace(/^### (.+)$/gm, `<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6b6b5e">$1</strong>`)
+    .replace(/^### (.+)$/gm, `<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-muted)">$1</strong>`)
     .replace(/^## (.+)$/gm, `<strong style="display:block;margin-top:12px;margin-bottom:4px;font-size:13px;color:${headingColor}">$1</strong>`)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/_([^_\n]+)_/g, '<em style="color:#6b6b5e">$1</em>')
-    .replace(/\[(\d+)\]/g, '<sup style="color:#6b6b5e;font-size:9px">[$1]</sup>')
+    .replace(/_([^_\n]+)_/g, '<em style="color:var(--color-muted)">$1</em>')
+    .replace(/\[(\d+)\]/g, '<sup style="color:var(--color-muted);font-size:9px">[$1]</sup>')
     .replace(/^- /gm, '• ')
     .replace(/\n\n/g, '<br/><br/>')
     .replace(/\n/g, '<br/>')

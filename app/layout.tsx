@@ -23,7 +23,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "NextLocal AI — AI Visibility for Local Businesses",
   description:
-    "AI optimization for local businesses. When customers ask ChatGPT, Perplexity, or Google AI who to call — we make sure your name comes up. Done-for-you service starting at $997/month.",
+    "AI optimization for local businesses. When customers ask ChatGPT, Perplexity, or Google AI who to call — we make sure your name comes up.",
   openGraph: {
     title: "NextLocal AI — AI Visibility for Local Businesses",
     description:

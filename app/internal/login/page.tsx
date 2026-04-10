@@ -22,9 +22,9 @@ export default function LoginPage() {
   }
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#1a1a16', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '360px', padding: '48px', backgroundColor: '#f5f2eb' }}>
-        <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8460a', marginBottom: '24px' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: 'var(--color-ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '360px', padding: '48px', backgroundColor: 'var(--color-cream)' }}>
+        <p style={{ fontFamily: 'monospace', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-orange)', marginBottom: '24px' }}>
           NextLocal AI — Internal
         </p>
         <input
@@ -34,17 +34,17 @@ export default function LoginPage() {
           onChange={e => setPassword(e.target.value)}
           autoFocus
           style={{
-            width: '100%', padding: '12px', border: '2px solid #1a1a16',
+            width: '100%', padding: '12px', border: '2px solid var(--color-ink)',
             backgroundColor: 'white', fontFamily: 'monospace', fontSize: '14px',
             marginBottom: '12px', boxSizing: 'border-box',
           }}
         />
-        {error && <p style={{ color: '#c8460a', fontSize: '12px', marginBottom: '12px', fontFamily: 'monospace' }}>{error}</p>}
+        {error && <p style={{ color: 'var(--color-orange)', fontSize: '12px', marginBottom: '12px', fontFamily: 'monospace' }}>{error}</p>}
         <button
           type="submit"
           style={{
-            width: '100%', padding: '12px', backgroundColor: '#1a1a16',
-            color: '#f5f2eb', fontFamily: 'monospace', fontSize: '11px',
+            width: '100%', padding: '12px', backgroundColor: 'var(--color-ink)',
+            color: 'var(--color-cream)', fontFamily: 'monospace', fontSize: '11px',
             letterSpacing: '0.15em', textTransform: 'uppercase', border: 'none', cursor: 'pointer',
           }}
         >

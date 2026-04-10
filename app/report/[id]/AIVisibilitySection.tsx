@@ -20,7 +20,7 @@ const SAMPLE_QUERIES = [
 
 function MentionBadge({ mentioned, loading }: { mentioned?: boolean; loading: boolean }) {
   if (loading) return (
-    <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '11px', color: '#6b6b5e' }}>
+    <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '11px', color: 'var(--color-muted)' }}>
       checking...
     </span>
   );
@@ -28,7 +28,7 @@ function MentionBadge({ mentioned, loading }: { mentioned?: boolean; loading: bo
     <span style={{
       fontFamily: 'var(--font-ibm-plex-mono), monospace',
       fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em',
-      color: mentioned ? '#22c55e' : '#c8460a',
+      color: mentioned ? '#22c55e' : 'var(--color-orange)',
     }}>
       {mentioned ? '✓ You appear' : '✗ Not found'}
     </span>
@@ -61,18 +61,18 @@ function TerminalBox({ businessType, cityState }: { businessType: string; citySt
 
   return (
     <div style={{
-      backgroundColor: '#1a1a16', borderRadius: '6px', padding: '16px 20px',
+      backgroundColor: 'var(--color-ink)', borderRadius: '6px', padding: '16px 20px',
       fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '13px',
-      color: '#6b6b5e', lineHeight: 1.5,
+      color: 'var(--color-muted)', lineHeight: 1.5,
     }}>
       <div style={{ marginBottom: '8px', display: 'flex', gap: '6px' }}>
-        <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#c8460a', display: 'inline-block' }} />
-        <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#6b6b5e', display: 'inline-block' }} />
-        <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#6b6b5e', display: 'inline-block' }} />
+        <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--color-orange)', display: 'inline-block' }} />
+        <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--color-muted)', display: 'inline-block' }} />
+        <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--color-muted)', display: 'inline-block' }} />
       </div>
-      <span style={{ color: '#c8460a' }}>$ </span>
-      <span style={{ color: '#ede9de' }}>{displayed}</span>
-      <span style={{ animation: 'nlBlink 1s step-end infinite', color: '#c8460a' }}>▋</span>
+      <span style={{ color: 'var(--color-orange)' }}>$ </span>
+      <span style={{ color: 'var(--color-cream2)' }}>{displayed}</span>
+      <span style={{ animation: 'nlBlink 1s step-end infinite', color: 'var(--color-orange)' }}>▋</span>
       <style>{`@keyframes nlBlink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
     </div>
   );
@@ -88,30 +88,30 @@ function ResultPanel({ label, result, loading }: { label: string; result?: AIQue
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '14px 20px',
-          backgroundColor: result?.mentioned ? 'rgba(34,197,94,0.05)' : loading ? '#f5f2eb' : 'rgba(200,70,10,0.04)',
+          backgroundColor: result?.mentioned ? 'rgba(34,197,94,0.05)' : loading ? 'var(--color-cream)' : 'rgba(200,70,10,0.04)',
           cursor: loading ? 'default' : 'pointer',
         }}
       >
-        <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a16' }}>
+        <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-ink)' }}>
           {label}
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <MentionBadge mentioned={result?.mentioned} loading={loading} />
           {!loading && result && (
-            <span style={{ fontSize: '11px', color: '#6b6b5e' }}>{open ? '▲' : '▼'}</span>
+            <span style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{open ? '▲' : '▼'}</span>
           )}
         </div>
       </div>
       {open && result && (
         <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(26,26,22,0.1)', backgroundColor: '#fafaf7' }}>
-          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e', marginBottom: '10px', fontStyle: 'italic' }}>
+          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: 'var(--color-muted)', marginBottom: '10px', fontStyle: 'italic' }}>
             Query: &ldquo;{result.query}&rdquo;
           </p>
           {result.error ? (
-            <p style={{ fontSize: '13px', color: '#c8460a' }}>{result.error}</p>
+            <p style={{ fontSize: '13px', color: 'var(--color-orange)' }}>{result.error}</p>
           ) : (
             <div
-              style={{ fontSize: '13px', color: '#1a1a16', lineHeight: 1.75 }}
+              style={{ fontSize: '13px', color: 'var(--color-ink)', lineHeight: 1.75 }}
               dangerouslySetInnerHTML={{ __html: renderMarkdown(result.response) }}
             />
           )}
@@ -147,18 +147,18 @@ export default function AIVisibilitySection({ reportId, businessName, businessTy
   }, [reportId]);
 
   return (
-    <section style={{ borderBottom: '2px solid #1a1a16' }}>
+    <section style={{ borderBottom: '2px solid var(--color-ink)' }}>
       <div className="grid grid-cols-1 md:grid-cols-[220px_1fr]">
         {/* Label column */}
         <div className="px-8 md:px-8 py-10 md:py-12 flex flex-row md:flex-col justify-between items-start md:items-stretch"
-          style={{ borderBottom: '2px solid #1a1a16', backgroundColor: '#1a1a16', minHeight: '120px' }}>
-          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '28px', lineHeight: 1.1, color: '#f5f2eb' }}>
+          style={{ borderBottom: '2px solid var(--color-ink)', backgroundColor: 'var(--color-ink)', minHeight: '120px' }}>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '28px', lineHeight: 1.1, color: 'var(--color-cream)' }}>
             What AI says.
           </h2>
           <span className="hidden md:block" style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: '#6b6b5e', writingMode: 'vertical-rl',
+            color: 'var(--color-muted)', writingMode: 'vertical-rl',
             transform: 'rotate(180deg)', alignSelf: 'flex-end',
           }}>
             AI Visibility
@@ -166,24 +166,24 @@ export default function AIVisibilitySection({ reportId, businessName, businessTy
         </div>
 
         {/* Content column */}
-        <div className="px-8 md:px-14 py-10 md:py-12 flex flex-col gap-4" style={{ backgroundColor: '#f5f2eb' }}>
+        <div className="px-8 md:px-14 py-10 md:py-12 flex flex-col gap-4" style={{ backgroundColor: 'var(--color-cream)' }}>
           {loading && (
             <div style={{ marginBottom: '8px' }}>
-              <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#6b6b5e', marginBottom: '12px' }}>
+              <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-muted)', marginBottom: '12px' }}>
                 Querying AI assistants now…
               </p>
               <TerminalBox businessType={type} cityState={city} />
             </div>
           )}
           {fetchError ? (
-            <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', color: '#c8460a', border: '1px solid #c8460a', padding: '14px 18px' }}>
+            <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', color: 'var(--color-orange)', border: '1px solid var(--color-orange)', padding: '14px 18px' }}>
               Couldn&apos;t reach the AI visibility check. Refresh to try again — if this keeps happening, email hello@nextlocal.ai.
             </p>
           ) : (
             <>
               <ResultPanel label="ChatGPT" result={chatgpt} loading={loading} />
               <ResultPanel label="Perplexity" result={perplexity} loading={loading} />
-              <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e', marginTop: '4px' }}>
+              <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: 'var(--color-muted)', marginTop: '4px' }}>
                 Click a result to see the full AI response. ↑
               </p>
             </>

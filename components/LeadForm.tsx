@@ -45,7 +45,7 @@ function BusinessTypeInput() {
       {open && matches.length > 0 && (
         <ul style={{
           position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
-          background: "#f5f2eb", border: "1px solid #1a1a16",
+          background: "var(--color-cream)", border: "1px solid var(--color-ink)",
           listStyle: "none", margin: 0, padding: 0,
           maxHeight: "200px", overflowY: "auto", zIndex: 50,
         }}>
@@ -56,10 +56,10 @@ function BusinessTypeInput() {
               style={{
                 padding: "10px 14px", cursor: "pointer",
                 fontFamily: '"IBM Plex Mono", monospace',
-                fontSize: "12px", color: "#1a1a16",
+                fontSize: "12px", color: "var(--color-ink)",
                 borderBottom: "1px solid rgba(26,26,22,0.08)",
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = "#ede9de")}
+              onMouseEnter={e => (e.currentTarget.style.background = "var(--color-cream2)")}
               onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
             >
               {option}
@@ -73,13 +73,13 @@ function BusinessTypeInput() {
 
 const labelStyle = {
   fontFamily: '"IBM Plex Mono", monospace',
-  color: "rgb(107, 107, 94)",
+  color: "var(--color-muted)",
 };
 
 const btnStyle = {
   fontFamily: '"IBM Plex Mono", monospace',
   backgroundColor: "rgb(10, 10, 8)",
-  color: "rgb(237, 233, 222)",
+  color: "var(--color-cream2)",
 };
 
 export default function LeadForm() {
@@ -176,7 +176,7 @@ export default function LeadForm() {
       </div>
 
       {error && (
-        <p className="text-xs" style={{ color: "rgb(200, 70, 10)", border: "1px solid rgb(200, 70, 10)", padding: "0.5rem 0.75rem" }}>
+        <p className="text-xs" style={{ color: "var(--color-orange)", border: "1px solid var(--color-orange)", padding: "0.5rem 0.75rem" }}>
           {error}
         </p>
       )}

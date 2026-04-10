@@ -8,10 +8,10 @@ import Logo from '@/components/Logo';
 import ReportViewTracker from './ReportViewTracker';
 
 function gradeColor(grade: string | undefined) {
-  if (!grade) return '#c8460a';
+  if (!grade) return 'var(--color-orange)';
   const g = grade.toUpperCase();
-  if (g.startsWith('A') || g.startsWith('B')) return '#1a1a16';
-  return '#c8460a';
+  if (g.startsWith('A') || g.startsWith('B')) return 'var(--color-ink)';
+  return 'var(--color-orange)';
 }
 
 function gradeDescriptor(grade: string | undefined) {
@@ -48,64 +48,64 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
   const actions = [data.action_1, data.action_2, data.action_3];
 
   return (
-    <main style={{ backgroundColor: '#f5f2eb', color: '#1a1a16', fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 300 }}>
+    <main style={{ backgroundColor: 'var(--color-cream)', color: 'var(--color-ink)', fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 300 }}>
       <ReportViewTracker businessName={data.business_name} grade={data.overall_grade} />
 
       {/* ── Nav ──────────────────────────────────────────────────── */}
-      <nav style={{ backgroundColor: '#f5f2eb', borderBottom: '2px solid #1a1a16' }}
+      <nav style={{ backgroundColor: 'var(--color-cream)', borderBottom: '2px solid var(--color-ink)' }}
         className="px-6 md:px-10 py-4 flex items-center justify-between">
         <Logo href="/" />
         <Link href="/" style={{ textDecoration: 'none' }}>
           <span style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '11px', letterSpacing: '0.14em',
-            color: '#6b6b5e', textTransform: 'uppercase',
+            color: 'var(--color-muted)', textTransform: 'uppercase',
           }}>nextlocal.ai</span>
         </Link>
       </nav>
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section className="grid grid-cols-1 md:grid-cols-2" style={{ borderBottom: '2px solid #1a1a16' }}>
+      <section className="grid grid-cols-1 md:grid-cols-2" style={{ borderBottom: '2px solid var(--color-ink)' }}>
         <div className="px-8 md:px-12 py-12 md:py-16 flex flex-col justify-center"
-          style={{ borderBottom: '2px solid #1a1a16', borderRight: 'none', backgroundColor: '#f5f2eb' }}>
+          style={{ borderBottom: '2px solid var(--color-ink)', borderRight: 'none', backgroundColor: 'var(--color-cream)' }}>
           <p style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: '#c8460a', marginBottom: '24px',
+            color: 'var(--color-orange)', marginBottom: '24px',
             display: 'flex', alignItems: 'center', gap: '8px',
           }}>
-            <span style={{ display: 'inline-block', width: '32px', height: '2px', backgroundColor: '#c8460a', flexShrink: 0 }} />
+            <span style={{ display: 'inline-block', width: '32px', height: '2px', backgroundColor: 'var(--color-orange)', flexShrink: 0 }} />
             AI Visibility Report
           </p>
           <h1 style={{
             fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
             fontSize: 'clamp(36px, 4vw, 64px)', lineHeight: 1.0,
-            color: '#1a1a16', marginBottom: '16px',
+            color: 'var(--color-ink)', marginBottom: '16px',
           }}>
             {data.business_name}
           </h1>
-          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', color: '#6b6b5e' }}>
+          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '12px', color: 'var(--color-muted)' }}>
             Prepared by NextLocal AI · {fmtDate(createdAt)}
           </p>
         </div>
 
         <div className="px-8 md:px-12 py-12 md:py-16 flex flex-col items-center justify-center gap-2"
-          style={{ backgroundColor: '#1a1a16', borderLeft: '0px', borderTop: '0px' }}>
+          style={{ backgroundColor: 'var(--color-ink)', borderLeft: '0px', borderTop: '0px' }}>
           <span style={{
             fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
             fontSize: 'clamp(80px, 10vw, 128px)', lineHeight: 1,
-            color: '#c8460a',
+            color: 'var(--color-orange)',
           }}>
             {data.overall_grade}
           </span>
           <p style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: '#6b6b5e', marginTop: '8px',
+            color: 'var(--color-muted)', marginTop: '8px',
           }}>
             Overall AI Visibility Grade
           </p>
-          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '13px', color: '#ede9de' }}>
+          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '13px', color: 'var(--color-cream2)' }}>
             {gradeDescriptor(data.overall_grade)}
           </p>
         </div>
@@ -120,14 +120,14 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       />
 
       {/* ── Score Cards ──────────────────────────────────────────── */}
-      <section className="grid grid-cols-3 md:grid-cols-5" style={{ borderBottom: '2px solid #1a1a16' }}>
+      <section className="grid grid-cols-3 md:grid-cols-5" style={{ borderBottom: '2px solid var(--color-ink)' }}>
         {subcategories.map(({ label, grade }, i) => (
           <div key={label} className="py-8 px-4 text-center"
-            style={{ borderRight: i < subcategories.length - 1 ? '1px solid #1a1a16' : 'none' }}>
+            style={{ borderRight: i < subcategories.length - 1 ? '1px solid var(--color-ink)' : 'none' }}>
             <p style={{
               fontFamily: 'var(--font-ibm-plex-mono), monospace',
               fontSize: '9px', letterSpacing: '0.15em', textTransform: 'uppercase',
-              color: '#6b6b5e', marginBottom: '12px',
+              color: 'var(--color-muted)', marginBottom: '12px',
             }}>
               {label}
             </p>
@@ -143,26 +143,26 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       </section>
 
       {/* ── Analysis ─────────────────────────────────────────────── */}
-      <section className="grid grid-cols-1 md:grid-cols-[220px_1fr]" style={{ borderBottom: '2px solid #1a1a16' }}>
+      <section className="grid grid-cols-1 md:grid-cols-[220px_1fr]" style={{ borderBottom: '2px solid var(--color-ink)' }}>
         <div className="px-8 md:px-8 py-10 md:py-12 flex flex-row md:flex-col justify-between items-start md:items-stretch"
-          style={{ borderBottom: '2px solid #1a1a16', backgroundColor: '#ede9de', minHeight: '120px' }}>
-          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '28px', lineHeight: 1.1, color: '#1a1a16' }}>
+          style={{ borderBottom: '2px solid var(--color-ink)', backgroundColor: 'var(--color-cream2)', minHeight: '120px' }}>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 900, fontSize: '28px', lineHeight: 1.1, color: 'var(--color-ink)' }}>
             What the data says.
           </h2>
           <span className="hidden md:block" style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: '#6b6b5e', writingMode: 'vertical-rl',
+            color: 'var(--color-muted)', writingMode: 'vertical-rl',
             transform: 'rotate(180deg)', alignSelf: 'flex-end',
           }}>
             Analysis
           </span>
         </div>
-        <div className="px-8 md:px-14 py-10 md:py-12 flex items-center" style={{ backgroundColor: '#f5f2eb' }}>
-          <blockquote style={{ borderLeft: '4px solid #c8460a', paddingLeft: '24px' }}>
+        <div className="px-8 md:px-14 py-10 md:py-12 flex items-center" style={{ backgroundColor: 'var(--color-cream)' }}>
+          <blockquote style={{ borderLeft: '4px solid var(--color-orange)', paddingLeft: '24px' }}>
             <p style={{
               fontFamily: 'var(--font-dm-sans), sans-serif',
-              fontSize: '17px', lineHeight: 1.75, color: '#1a1a16', fontWeight: 300,
+              fontSize: '17px', lineHeight: 1.75, color: 'var(--color-ink)', fontWeight: 300,
             }}>
               {data.narrative}
             </p>
@@ -171,10 +171,10 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       </section>
 
       {/* ── What to do next ──────────────────────────────────────── */}
-      <section className="px-6 md:px-12 py-16 md:py-20" style={{ backgroundColor: '#1a1a16', borderBottom: '2px solid #1a1a16' }}>
+      <section className="px-6 md:px-12 py-16 md:py-20" style={{ backgroundColor: 'var(--color-ink)', borderBottom: '2px solid var(--color-ink)' }}>
         <h2 style={{
           fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
-          fontSize: 'clamp(32px, 4vw, 52px)', color: '#ede9de', marginBottom: '48px',
+          fontSize: 'clamp(32px, 4vw, 52px)', color: 'var(--color-cream2)', marginBottom: '48px',
         }}>
           What to do next.
         </h2>
@@ -193,13 +193,13 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
               <span style={{
                 fontFamily: 'var(--font-ibm-plex-mono), monospace',
                 fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase',
-                color: '#c8460a', display: 'block', marginBottom: '14px',
+                color: 'var(--color-orange)', display: 'block', marginBottom: '14px',
               }}>
                 0{i + 1}
               </span>
               <p style={{
                 fontFamily: 'var(--font-dm-sans), sans-serif',
-                fontSize: '15px', lineHeight: 1.65, color: '#ede9de',
+                fontSize: '15px', lineHeight: 1.65, color: 'var(--color-cream2)',
                 fontWeight: 300, position: 'relative', zIndex: 1,
               }}>
                 {action}
@@ -210,8 +210,8 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <section className="grid grid-cols-1 md:grid-cols-2" style={{ borderBottom: '2px solid #1a1a16' }}>
-        <div className="px-8 md:px-12 py-16 md:py-20" style={{ backgroundColor: '#c8460a' }}>
+      <section className="grid grid-cols-1 md:grid-cols-2" style={{ borderBottom: '2px solid var(--color-ink)' }}>
+        <div className="px-8 md:px-12 py-16 md:py-20" style={{ backgroundColor: 'var(--color-orange)' }}>
           <h2 style={{
             fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
             fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 1.1,
@@ -224,7 +224,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           </p>
         </div>
         <div className="px-8 md:px-12 py-16 md:py-20 flex flex-col items-center justify-center gap-4"
-          style={{ backgroundColor: '#ede9de' }}>
+          style={{ backgroundColor: 'var(--color-cream2)' }}>
           <TrackableLink
             href="https://calendar.app.google/jGetcA5qNj7pHp3Y9"
             target="_blank"
@@ -232,8 +232,8 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
             eventName="book_walkthrough_click"
             style={{
               display: 'block', width: '100%',
-              padding: '20px 32px', backgroundColor: '#1a1a16',
-              color: '#ede9de',
+              padding: '20px 32px', backgroundColor: 'var(--color-ink)',
+              color: 'var(--color-cream2)',
               fontFamily: 'var(--font-ibm-plex-mono), monospace',
               fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase',
               textAlign: 'center', textDecoration: 'none',
@@ -241,7 +241,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           >
             Book Your Free 15-Min Report Walkthrough →
           </TrackableLink>
-          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', letterSpacing: '0.1em', color: '#6b6b5e' }}>
+          <p style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', letterSpacing: '0.1em', color: 'var(--color-muted)' }}>
             No obligation. 15 minutes. Real answers.
           </p>
         </div>
@@ -249,12 +249,12 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
 
       {/* ── Footer ───────────────────────────────────────────────── */}
       <footer className="px-6 md:px-12 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3"
-        style={{ backgroundColor: '#1a1a16' }}>
+        style={{ backgroundColor: 'var(--color-ink)' }}>
         <Logo variant="light" href="/" />
-        <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e' }}>
+        <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: 'var(--color-muted)' }}>
           This report expires on {fmtDate(expiresAt)}
         </span>
-        <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: '#6b6b5e' }}>
+        <span style={{ fontFamily: 'var(--font-ibm-plex-mono), monospace', fontSize: '10px', color: 'var(--color-muted)' }}>
           © {createdAt.getFullYear()} NextLocal AI. Austin, TX.
         </span>
       </footer>

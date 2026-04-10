@@ -8,7 +8,7 @@ const organizationSchema = {
   "@type": "Organization",
   "name": "NextLocal AI",
   "url": "https://nextlocal.ai",
-  "logo": "https://nextlocal.ai/favicon.ico",
+  "logo": "https://nextlocal.ai/og-image.png",
   "description": "NextLocal AI helps local businesses get recommended by AI assistants like ChatGPT, Gemini, and Perplexity through AI visibility optimization and free AI Visibility Reports.",
   "address": {
     "@type": "PostalAddress",
@@ -23,8 +23,7 @@ const organizationSchema = {
     "contactType": "customer service"
   },
   "sameAs": [
-    "https://www.linkedin.com/company/nextlocal-ai",
-    "https://nextlocal.ai"
+    "https://www.linkedin.com/company/nextlocal-ai"
   ]
 };
 
@@ -190,10 +189,10 @@ export default function Home() {
       <BusinessTicker />
 
       {/* ── About ───────────────────────────────────────────── */}
-      <section className="border-b-2 border-ink px-6 lg:px-16 py-14" style={{ backgroundColor: "rgb(237, 233, 222)" }}>
+      <section className="border-b-2 border-ink px-6 lg:px-16 py-14" style={{ backgroundColor: "var(--color-cream2)" }}>
         <div className="max-w-3xl">
           <p className="font-[family-name:var(--font-ibm-plex-mono)] text-[10px] uppercase tracking-widest text-muted mb-4">About NextLocal AI</p>
-          <p className="text-base leading-relaxed font-light" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgb(107, 107, 94)" }}>
+          <p className="text-base leading-relaxed font-light" style={{ fontFamily: '"DM Sans", sans-serif', color: "var(--color-muted)" }}>
             NextLocal AI is an AI visibility optimization service for local businesses, founded in Austin, Texas.
             As AI assistants like ChatGPT, Perplexity, and Google Gemini increasingly become the first stop for
             consumer recommendations, local businesses face a new challenge: appearing in AI-generated answers,
@@ -214,7 +213,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr]">
           {/* Left label */}
           <div className="border-b-2 md:border-b-0 md:border-r-2 border-ink px-6 lg:px-10 py-16 bg-cream2 relative">
-            <h2 className="text-4xl lg:text-5xl leading-[1.0]" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "rgb(26, 26, 22)" }}>
+            <h2 className="text-4xl lg:text-5xl leading-[1.0]" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "var(--color-ink)" }}>
               The shift already happened.
             </h2>
             <div className="hidden lg:block absolute bottom-10 right-6">
@@ -222,7 +221,7 @@ export default function Home() {
                 className="text-[11px] uppercase tracking-[0.2em]"
                 style={{
                   fontFamily: '"IBM Plex Mono", monospace',
-                  color: "rgb(107, 107, 94)",
+                  color: "var(--color-muted)",
                   writingMode: "vertical-rl",
                   transform: "rotate(180deg)",
                 }}
@@ -233,9 +232,9 @@ export default function Home() {
           </div>
 
           {/* Right content */}
-          <div className="px-6 lg:px-12 py-16" style={{ backgroundColor: "rgb(245, 242, 235)" }}>
-            <blockquote className="pl-6 mb-12" style={{ borderLeft: "4px solid rgb(200, 70, 10)" }}>
-              <p className="text-2xl lg:text-3xl leading-relaxed" style={{ fontFamily: '"Playfair Display", serif', fontStyle: "italic", color: "rgb(26, 26, 22)" }}>
+          <div className="px-6 lg:px-12 py-16" style={{ backgroundColor: "var(--color-cream)" }}>
+            <blockquote className="pl-6 mb-12" style={{ borderLeft: "4px solid var(--color-orange)" }}>
+              <p className="text-2xl lg:text-3xl leading-relaxed" style={{ fontFamily: '"Playfair Display", serif', fontStyle: "italic", color: "var(--color-ink)" }}>
                 &ldquo;Google it&rdquo; is giving way to &ldquo;ask ChatGPT.&rdquo; Your customers switched. Your marketing hasn&apos;t.
               </p>
             </blockquote>
@@ -248,9 +247,9 @@ export default function Home() {
                 { n: "04", title: "Most agencies don't know this yet", body: "The firms selling you SEO packages are optimizing for a 2019 search landscape. We only do AI visibility. It's all we think about." },
               ].map(({ n, title, body }) => (
                 <div key={n} className="p-6" style={{ border: "1px solid rgba(26, 26, 22, 0.3)" }}>
-                  <span className="text-[11px] mb-2 block" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "rgb(200, 70, 10)" }}>{n}</span>
-                  <h3 className="text-xl mb-3" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "rgb(26, 26, 22)" }}>{title}</h3>
-                  <p className="text-base leading-relaxed" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgb(107, 107, 94)" }}>{body}</p>
+                  <span className="text-[11px] mb-2 block" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "var(--color-orange)" }}>{n}</span>
+                  <h3 className="text-xl mb-3" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "var(--color-ink)" }}>{title}</h3>
+                  <p className="text-base leading-relaxed" style={{ fontFamily: '"DM Sans", sans-serif', color: "var(--color-muted)" }}>{body}</p>
                 </div>
               ))}
             </div>
@@ -259,14 +258,14 @@ export default function Home() {
       </section>
 
       {/* ── How It Works ────────────────────────────────────── */}
-      <section id="how-it-works" className="py-20 lg:py-28" style={{ backgroundColor: "rgb(10, 10, 8)", borderTop: "2px solid rgb(26, 26, 22)" }}>
+      <section id="how-it-works" className="py-20 lg:py-28" style={{ backgroundColor: "rgb(10, 10, 8)", borderTop: "2px solid var(--color-ink)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-            <h2 className="text-4xl lg:text-5xl leading-tight" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "rgb(237, 233, 222)" }}>
+            <h2 className="text-4xl lg:text-5xl leading-tight" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "var(--color-cream2)" }}>
               How we get you into the{" "}
-              <span style={{ fontStyle: "italic", color: "rgb(200, 70, 10)" }}>answer.</span>
+              <span style={{ fontStyle: "italic", color: "var(--color-orange)" }}>answer.</span>
             </h2>
-            <p className="text-lg leading-relaxed self-end" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgb(107, 107, 94)" }}>
+            <p className="text-lg leading-relaxed self-end" style={{ fontFamily: '"DM Sans", sans-serif', color: "var(--color-muted)" }}>
               Most businesses are invisible to AI assistants. We fix that through a systematic approach to AI visibility that goes far beyond traditional SEO.
             </p>
           </div>
@@ -280,9 +279,9 @@ export default function Home() {
               <div key={n} className="relative p-8" style={{ border: "1px solid rgba(237, 233, 222, 0.2)" }}>
                 <span className="absolute top-4 right-4 text-[120px] leading-none select-none pointer-events-none" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "rgba(237, 233, 222, 0.05)" }}>{n}</span>
                 <div className="relative z-10">
-                  <span className="text-[11px] mb-4 block uppercase tracking-wider" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "rgb(200, 70, 10)" }}>{step}</span>
-                  <h3 className="text-2xl mb-4" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "rgb(237, 233, 222)" }}>{title}</h3>
-                  <p className="text-base leading-relaxed" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgb(107, 107, 94)" }}>{body}</p>
+                  <span className="text-[11px] mb-4 block uppercase tracking-wider" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "var(--color-orange)" }}>{step}</span>
+                  <h3 className="text-2xl mb-4" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "var(--color-cream2)" }}>{title}</h3>
+                  <p className="text-base leading-relaxed" style={{ fontFamily: '"DM Sans", sans-serif', color: "var(--color-muted)" }}>{body}</p>
                 </div>
               </div>
             ))}
@@ -296,7 +295,7 @@ export default function Home() {
         className="grid grid-cols-1 md:grid-cols-2 border-b-2 border-ink"
       >
         {/* Left — orange */}
-        <div className="px-6 lg:px-12 py-16 lg:py-24 flex flex-col justify-center" style={{ backgroundColor: "rgb(200, 70, 10)" }}>
+        <div className="px-6 lg:px-12 py-16 lg:py-24 flex flex-col justify-center" style={{ backgroundColor: "var(--color-orange)" }}>
           <h2 className="text-4xl lg:text-5xl leading-tight mb-6" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "white" }}>
             Find out where AI ranks you. For free.
           </h2>
@@ -310,11 +309,11 @@ export default function Home() {
         </div>
 
         {/* Right — form */}
-        <div className="px-6 lg:px-12 py-16 lg:py-24" style={{ backgroundColor: "rgb(237, 233, 222)" }}>
-          <h3 className="text-3xl mb-2" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "rgb(26, 26, 22)" }}>
+        <div className="px-6 lg:px-12 py-16 lg:py-24" style={{ backgroundColor: "var(--color-cream2)" }}>
+          <h3 className="text-3xl mb-2" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "var(--color-ink)" }}>
             Get Your Free AI Visibility Report
           </h3>
-          <p className="text-[11px] uppercase tracking-wider mb-10" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "rgb(107, 107, 94)" }}>
+          <p className="text-[11px] uppercase tracking-wider mb-10" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "var(--color-muted)" }}>
             Takes 2 minutes. No credit card. No sales call unless you want one.
           </p>
           <LeadForm />
@@ -322,13 +321,13 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ─────────────────────────────────────────────── */}
-      <section id="faq" className="border-b-2 border-ink" style={{ backgroundColor: "rgb(245, 242, 235)" }}>
+      <section id="faq" className="border-b-2 border-ink" style={{ backgroundColor: "var(--color-cream)" }}>
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr]">
           <div className="border-b-2 md:border-b-0 md:border-r-2 border-ink px-6 lg:px-10 py-16 bg-cream2 flex flex-col justify-between">
-            <h2 className="text-4xl lg:text-5xl leading-[1.0]" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "rgb(26, 26, 22)" }}>
+            <h2 className="text-4xl lg:text-5xl leading-[1.0]" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 900, color: "var(--color-ink)" }}>
               Common questions.
             </h2>
-            <span className="hidden lg:block text-[11px] uppercase tracking-[0.2em] self-end" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "rgb(107, 107, 94)", writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
+            <span className="hidden lg:block text-[11px] uppercase tracking-[0.2em] self-end" style={{ fontFamily: '"IBM Plex Mono", monospace', color: "var(--color-muted)", writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
               FAQ
             </span>
           </div>
@@ -372,10 +371,10 @@ export default function Home() {
               },
             ].map(({ q, a }) => (
               <div key={q} className="px-6 lg:px-12 py-10">
-                <h3 className="text-xl mb-4" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "rgb(26, 26, 22)" }}>{q}</h3>
+                <h3 className="text-xl mb-4" style={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: "var(--color-ink)" }}>{q}</h3>
                 <div className="space-y-4">
                   {(Array.isArray(a) ? a : [a]).map((para, i) => (
-                    <p key={i} className="text-base leading-relaxed" style={{ fontFamily: '"DM Sans", sans-serif', color: "rgb(107, 107, 94)", fontWeight: 300 }}>{para}</p>
+                    <p key={i} className="text-base leading-relaxed" style={{ fontFamily: '"DM Sans", sans-serif', color: "var(--color-muted)", fontWeight: 300 }}>{para}</p>
                   ))}
                 </div>
               </div>

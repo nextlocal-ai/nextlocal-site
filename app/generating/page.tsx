@@ -169,42 +169,42 @@ function GeneratingContent() {
         <div style={{
           fontFamily: 'var(--font-ibm-plex-mono), monospace',
           fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase',
-          color: '#6b6b5e', marginBottom: '48px',
+          color: 'var(--color-muted)', marginBottom: '48px',
           display: 'flex', alignItems: 'center', gap: '8px',
         }}>
           <span style={{
-            width: '6px', height: '6px', backgroundColor: '#c8460a',
+            width: '6px', height: '6px', backgroundColor: 'var(--color-orange)',
             borderRadius: '50%', display: 'inline-block',
             animation: 'nlPulse 2s ease-in-out infinite',
           }} />
-          Next<strong style={{ color: '#c8460a' }}>Local</strong> AI
+          Next<strong style={{ color: 'var(--color-orange)' }}>Local</strong> AI
         </div>
 
         {/* Headline */}
         <h1 style={{
           fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
           fontSize: 'clamp(32px, 6vw, 48px)', lineHeight: 1.05,
-          color: '#1a1a16', marginBottom: '8px',
+          color: 'var(--color-ink)', marginBottom: '8px',
         }}>
           Analyzing
-          <span style={{ color: '#c8460a', display: 'block' }}>{bizName}</span>
+          <span style={{ color: 'var(--color-orange)', display: 'block' }}>{bizName}</span>
         </h1>
         <div style={{
           fontFamily: 'var(--font-ibm-plex-mono), monospace',
           fontSize: '12px', letterSpacing: '0.08em',
-          color: '#6b6b5e', marginBottom: '48px', textTransform: 'uppercase',
+          color: 'var(--color-muted)', marginBottom: '48px', textTransform: 'uppercase',
         }}>
           AI Visibility Report · Generating Now
         </div>
 
         {/* Progress bar */}
         <div style={{
-          width: '100%', height: '2px', background: '#ede9de',
-          border: '1px solid #1a1a16', marginBottom: '32px',
+          width: '100%', height: '2px', background: 'var(--color-cream2)',
+          border: '1px solid var(--color-ink)', marginBottom: '32px',
           position: 'relative', overflow: 'hidden',
         }}>
           <div style={{
-            height: '100%', background: '#1a1a16',
+            height: '100%', background: 'var(--color-ink)',
             width: `${pct}%`,
             transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)',
             position: 'relative',
@@ -212,7 +212,7 @@ function GeneratingContent() {
             <span style={{
               position: 'absolute', right: 0, top: '-2px',
               width: '6px', height: '6px',
-              background: '#c8460a', borderRadius: '50%', display: 'block',
+              background: 'var(--color-orange)', borderRadius: '50%', display: 'block',
             }} />
           </div>
         </div>
@@ -232,32 +232,32 @@ function GeneratingContent() {
               }}>
                 <div style={{
                   width: '20px', height: '20px',
-                  border: `1.5px solid ${state === 'active' ? '#c8460a' : '#1a1a16'}`,
+                  border: `1.5px solid ${state === 'active' ? 'var(--color-orange)' : 'var(--color-ink)'}`,
                   borderRadius: '50%', flexShrink: 0, marginTop: '2px',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  backgroundColor: state === 'done' ? '#1a1a16' : 'transparent',
+                  backgroundColor: state === 'done' ? 'var(--color-ink)' : 'transparent',
                   transition: 'all 0.3s ease',
                 }}>
                   {state === 'active' && (
                     <span style={{
-                      width: '6px', height: '6px', background: '#c8460a',
+                      width: '6px', height: '6px', background: 'var(--color-orange)',
                       borderRadius: '50%', display: 'block',
                       animation: 'nlStepPulse 1s ease-in-out infinite',
                     }} />
                   )}
                   {state === 'done' && (
-                    <span style={{ color: '#f5f2eb', fontSize: '10px', fontWeight: 700, lineHeight: 1 }}>✓</span>
+                    <span style={{ color: 'var(--color-cream)', fontSize: '10px', fontWeight: 700, lineHeight: 1 }}>✓</span>
                   )}
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{
                     fontFamily: 'var(--font-dm-sans), sans-serif',
                     fontWeight: 400, fontSize: '14px',
-                    color: '#1a1a16', lineHeight: 1.3,
+                    color: 'var(--color-ink)', lineHeight: 1.3,
                   }}>{step.label}</div>
                   <div style={{
                     fontFamily: 'var(--font-ibm-plex-mono), monospace',
-                    fontSize: '10px', color: '#6b6b5e',
+                    fontSize: '10px', color: 'var(--color-muted)',
                     letterSpacing: '0.06em', marginTop: '3px',
                   }}>{step.detail}</div>
                 </div>
@@ -270,14 +270,14 @@ function GeneratingContent() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{
             fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
-            fontSize: '48px', color: '#1a1a16', lineHeight: 1,
+            fontSize: '48px', color: 'var(--color-ink)', lineHeight: 1,
           }}>
-            {Math.round(pct)}<span style={{ fontSize: '24px', color: '#6b6b5e' }}>%</span>
+            {Math.round(pct)}<span style={{ fontSize: '24px', color: 'var(--color-muted)' }}>%</span>
           </div>
           <div style={{
             fontFamily: 'var(--font-ibm-plex-mono), monospace',
             fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase',
-            color: '#6b6b5e', textAlign: 'right', lineHeight: 1.6,
+            color: 'var(--color-muted)', textAlign: 'right', lineHeight: 1.6,
           }}>
             {labelLines[0]}<br />{labelLines[1] ?? ''}
           </div>
@@ -289,7 +289,7 @@ function GeneratingContent() {
           borderTop: '1px solid rgba(26,26,22,0.12)',
           fontFamily: 'var(--font-ibm-plex-mono), monospace',
           fontSize: '10px', letterSpacing: '0.08em',
-          color: '#6b6b5e', textTransform: 'uppercase',
+          color: 'var(--color-muted)', textTransform: 'uppercase',
           display: 'flex', justifyContent: 'space-between',
         }}>
           <span>Secure · Private · Free</span>
@@ -300,16 +300,16 @@ function GeneratingContent() {
       {/* Redirect overlay */}
       {showOverlay && (
         <div style={{
-          position: 'fixed', inset: 0, backgroundColor: '#1a1a16',
+          position: 'fixed', inset: 0, backgroundColor: 'var(--color-ink)',
           zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center',
           animation: 'nlFadeIn 0.5s ease forwards',
         }}>
           <div style={{
             fontFamily: 'var(--font-playfair), serif', fontWeight: 900,
-            fontSize: '32px', color: '#f5f2eb', textAlign: 'center',
+            fontSize: '32px', color: 'var(--color-cream)', textAlign: 'center',
           }}>
             Your report<br />
-            <span style={{ color: '#c8460a' }}>is ready.</span>
+            <span style={{ color: 'var(--color-orange)' }}>is ready.</span>
           </div>
         </div>
       )}
@@ -335,7 +335,7 @@ function GeneratingContent() {
 export default function GeneratingPage() {
   return (
     <main style={{
-      backgroundColor: '#f5f2eb', color: '#1a1a16',
+      backgroundColor: 'var(--color-cream)', color: 'var(--color-ink)',
       fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 300,
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
