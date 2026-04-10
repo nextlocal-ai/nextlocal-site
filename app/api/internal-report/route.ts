@@ -3,6 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { kv } from '@vercel/kv';
 import { randomUUID } from 'crypto';
 import type { ReportData } from '@/app/api/save-report/route';
+import { verifySession, SESSION_COOKIE } from '@/lib/auth';
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const PLACES_KEY = process.env.GOOGLE_PLACES_API_KEY;
@@ -27,7 +28,6 @@ async function queryAI(platform: 'chatgpt' | 'perplexity', businessType: string,
         }),
       });
       const data = await res.json();
-      console.log('OpenAI status:', res.status, 'body:', JSON.stringify(data).slice(0, 300));
       if (!res.ok) {
         return { response: '', error: data.error?.message || `HTTP ${res.status}` };
       }
@@ -169,9 +169,8 @@ async function checkCitations(businessName: string, cityState: string): Promise<
 export async function POST(req: NextRequest) {
   try {
     const expectedKey = process.env.INTERNAL_API_KEY;
-    const expectedPassword = process.env.INTERNAL_PASSWORD;
     const headerValid = !!expectedKey && req.headers.get('x-internal-key') === expectedKey;
-    const cookieValid = !!expectedPassword && req.cookies.get('nl_internal_auth')?.value === expectedPassword;
+    const cookieValid = await verifySession(req.cookies.get(SESSION_COOKIE)?.value);
     if (!headerValid && !cookieValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

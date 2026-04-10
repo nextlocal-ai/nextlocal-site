@@ -71,9 +71,6 @@ function BusinessTypeInput() {
   );
 }
 
-const WEBHOOK_URL =
-  "https://hook.us2.make.com/ryxzfq6q5oswd67fxyvyxx5mw61jy3h3";
-
 const labelStyle = {
   fontFamily: '"IBM Plex Mono", monospace',
   color: "rgb(107, 107, 94)",
@@ -113,7 +110,7 @@ export default function LeadForm() {
 
       // Redirect immediately — polling handles the rest
       const params = new URLSearchParams({ business_name: businessName, submission_id: submissionId });
-      window.location.href = `https://nextlocal.ai/generating?${params}`;
+      window.location.href = `/generating?${params}`;
     } catch {
       setError("Something went wrong. Please try again or email hello@nextlocal.ai.");
       setLoading(false);

@@ -19,16 +19,6 @@ export interface ReportData {
   city_state?: string;
 }
 
-export async function GET() {
-  const debugInfo = await kv.get<Record<string, string>>('debug:last_save');
-  return NextResponse.json({
-    ok: true,
-    has_url: !!process.env.KV_REST_API_URL,
-    has_token: !!process.env.KV_REST_API_TOKEN,
-    last_save: debugInfo ?? null,
-  });
-}
-
 // camelCase / "Title Case" / "snake_case" → snake_case
 function normalizeKey(k: string): string {
   return k.replace(/([A-Z])/g, '_$1').toLowerCase().replace(/ /g, '_').replace(/^_/, '').replace(/_+$/, '');
@@ -36,6 +26,11 @@ function normalizeKey(k: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    const expectedSecret = process.env.MAKE_WEBHOOK_SECRET;
+    if (!expectedSecret || req.headers.get('x-nl-secret') !== expectedSecret) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const contentType = req.headers.get('content-type') || '';
     let raw: Record<string, unknown>;
     if (contentType.includes('application/x-www-form-urlencoded')) {
@@ -64,16 +59,6 @@ export async function POST(req: NextRequest) {
       body[normalizeKey(k)] = String(v ?? '');
     }
 
-    console.log('[save-report] keys:', Object.keys(body).join(', '), '| session_id:', body.session_id);
-
-    // Debug: store last call info so we can inspect what Make actually sent
-    await kv.set('debug:last_save', {
-      keys: Object.keys(body).join(','),
-      session_id: body.session_id ?? '(missing)',
-      content_type: contentType,
-      ts: new Date().toISOString(),
-    }, { ex: 3600 });
-
     const { session_id, city, state, ...reportFields } = body;
     const id = randomUUID().replace(/-/g, '').slice(0, 12);
 
@@ -87,12 +72,12 @@ export async function POST(req: NextRequest) {
 
     if (session_id) {
       await kv.set(`session:${session_id}`, id, { ex: 60 * 60 * 24 });
-      console.log('[save-report] session mapped:', session_id, '->', id);
-    } else {
-      console.log('[save-report] WARNING: no session_id received');
     }
 
-    return NextResponse.json({ id, report_url: `/report/${id}`, received_session_id: session_id || null });
+    return NextResponse.json(
+      { id, report_url: `/report/${id}`, received_session_id: session_id || null },
+      { headers: { 'X-Report-Id': id, 'X-Report-Url': `https://nextlocal.ai/report/${id}` } }
+    );
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ error: message }, { status: 500 });
