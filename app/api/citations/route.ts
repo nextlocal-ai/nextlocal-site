@@ -13,5 +13,9 @@ export async function GET(req: NextRequest) {
   }
 
   const result = await checkCitations(businessName, cityState);
-  return NextResponse.json(result);
+  return NextResponse.json({
+    ...result,
+    score: result.found.length,
+    total: 5,
+  });
 }
